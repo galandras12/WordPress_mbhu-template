@@ -1,0 +1,437 @@
+/*
+Theme Name: Mezőberény Városi Sablon
+Theme URI: https://mezobereny.hu
+Author: Mezőberény Város Önkormányzata
+Author URI: https://mezobereny.hu
+Description: Önkormányzati/városi honlap sablon, amely a mezőberény.hu weboldal vizuális megjelenését követi: sötét felső elérhetőségi sáv, szépia városkép fejléc díszes cirkalmas felirattal, három hasábos elrendezés (bal oldalt Elérhetőségek és Menü doboz, jobb oldalt Köszöntő, Keresés, Eseménynaptár, Anyakönyvi hírek stb.), krém-barna színvilág, gyorslink gombsor és kétoszlopos hírblokk. Testreszabható fejlécképpel, menükkel és widget-mezőkkel.
+Version: 1.0.0
+Requires at least: 6.0
+Requires PHP: 7.4
+Tested up to: 6.6
+License: GNU General Public License v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: mezobereny
+Tags: custom-header, custom-menu, three-columns, translation-ready
+*/
+
+/* -----------------------------------------------------------
+   0. Alapok / változók
+----------------------------------------------------------- */
+:root{
+  --mb-cream: #efe6d2;
+  --mb-cream-light: #f8f2e4;
+  --mb-cream-lighter: #fbf7ee;
+  --mb-topbar: #17140f;
+  --mb-topbar-text: #cfc6b4;
+  --mb-gold-dark: #a9885c;
+  --mb-gold-mid: #c2a878;
+  --mb-gold-light: #d8c39a;
+  --mb-brown-text: #3a2c18;
+  --mb-brown-link: #5a3c1e;
+  --mb-brown-link-hover: #8a6a34;
+  --mb-border: #b79f74;
+  --mb-border-light: #ddccab;
+  --mb-green: #82a23f;
+  --mb-green-dark: #61802b;
+  --mb-sky-top: #a9d3e8;
+  --mb-sky-bottom: #eef6fb;
+  --mb-font-body: Georgia, 'Times New Roman', Times, serif;
+  --mb-font-script: 'Great Vibes', 'Brush Script MT', cursive;
+  --mb-radius: 3px;
+  --mb-maxw: 1200px;
+}
+
+*{ box-sizing: border-box; }
+
+html{ font-size: 16px; }
+html.mb-font-large{ font-size: 18px; }
+html.mb-font-larger{ font-size: 20px; }
+html.mb-contrast body{ background:#000; color:#fff; }
+html.mb-contrast a{ color:#ffd76b !important; }
+html.mb-contrast .widget-box,
+html.mb-contrast .quicklink,
+html.mb-contrast .site-header{ background:#000 !important; border-color:#ffd76b !important; }
+
+body{
+  margin:0;
+  font-family: var(--mb-font-body);
+  background: var(--mb-cream);
+  color: var(--mb-brown-text);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+a{ color: var(--mb-brown-link); text-decoration: underline; }
+a:hover{ color: var(--mb-brown-link-hover); }
+
+img{ max-width:100%; height:auto; }
+
+ul{ margin:0; padding:0; list-style:none; }
+
+.screen-reader-text{
+  position:absolute !important;
+  clip:rect(1px,1px,1px,1px);
+  width:1px;height:1px;overflow:hidden;
+}
+
+.container{ max-width: var(--mb-maxw); margin:0 auto; padding:0 16px; }
+
+/* -----------------------------------------------------------
+   1. Felső elérhetőségi / kisegítő sáv
+----------------------------------------------------------- */
+#mb-topbar{
+  background: var(--mb-topbar);
+  color: var(--mb-topbar-text);
+}
+#mb-topbar .container{
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  gap:10px;
+  padding-top:6px;
+  padding-bottom:6px;
+  font-size:0.8rem;
+}
+#mb-topbar span.mb-topbar-label{ margin-right:2px; }
+#mb-topbar button{
+  background:none;
+  border:1px solid #4a4536;
+  color: var(--mb-topbar-text);
+  cursor:pointer;
+  font-family: var(--mb-font-body);
+  line-height:1;
+  padding:3px 7px;
+  border-radius: var(--mb-radius);
+}
+#mb-topbar button:hover{ background:#2a2618; }
+#mb-topbar button.font-a2{ font-size:1.05em; }
+#mb-topbar button.font-a3{ font-size:1.2em; }
+#mb-topbar button.mb-contrast-toggle{
+  border-radius:50%;
+  width:26px;height:26px;
+  padding:0;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* -----------------------------------------------------------
+   2. Fejléc / szépia városkép sáv + logó
+----------------------------------------------------------- */
+.site-header{
+  position:relative;
+  background: linear-gradient(var(--mb-sky-top), var(--mb-sky-bottom));
+  border-bottom: 4px solid var(--mb-gold-dark);
+}
+.site-header .header-image-wrap{
+  width:100%;
+  overflow:hidden;
+  line-height:0;
+}
+.site-header .header-image-wrap img{
+  width:100%;
+  display:block;
+  object-fit:cover;
+  max-height:230px;
+}
+.site-header .header-image-placeholder{
+  height:190px;
+  background:
+    linear-gradient(to top, rgba(58,44,24,.15), rgba(58,44,24,0) 60%),
+    linear-gradient(var(--mb-sky-top), var(--mb-sky-bottom));
+}
+.site-branding{
+  position:relative;
+  margin-top:-70px;
+  padding: 0 16px 6px;
+  max-width: var(--mb-maxw);
+  margin-left:auto;
+  margin-right:auto;
+}
+.site-branding .site-title{
+  font-family: var(--mb-font-script);
+  font-size: 3.4rem;
+  line-height:1;
+  color:#241c10;
+  text-shadow: 0 1px 0 rgba(255,255,255,.5);
+  margin:0;
+  display:inline-block;
+}
+.site-branding .site-title a{ color:inherit; text-decoration:none; }
+.site-branding .site-description{
+  display:block;
+  font-family: var(--mb-font-body);
+  font-size:.85rem;
+  font-style:italic;
+  color:#3a2c18;
+  margin-top:-6px;
+}
+.custom-logo-link img{ max-height:120px; width:auto; }
+
+.mb-breadcrumb-row{
+  background: var(--mb-cream-light);
+  border-top:1px solid var(--mb-border-light);
+  border-bottom:1px solid var(--mb-border-light);
+  font-size:.85rem;
+}
+.mb-breadcrumb-row .container{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:6px;
+  padding-top:6px;
+  padding-bottom:6px;
+}
+.mb-breadcrumb a{ text-decoration:none; }
+.mb-today{ color:#4a3a22; }
+
+/* -----------------------------------------------------------
+   3. Három hasábos elrendezés
+----------------------------------------------------------- */
+.site-columns{
+  max-width: var(--mb-maxw);
+  margin:18px auto;
+  padding:0 16px;
+  display:flex;
+  align-items:flex-start;
+  gap:18px;
+}
+.sidebar-col{
+  flex: 0 0 225px;
+  width:225px;
+}
+#primary{
+  flex:1 1 auto;
+  min-width:0;
+}
+
+@media (max-width: 900px){
+  .site-columns{ flex-wrap:wrap; }
+  .sidebar-col{ flex:1 1 100%; width:100%; }
+  .site-branding .site-title{ font-size:2.4rem; }
+}
+
+/* -----------------------------------------------------------
+   4. Widget dobozok (közös stílus mindkét oldalsávra)
+----------------------------------------------------------- */
+.widget-box{
+  background: var(--mb-cream-lighter);
+  border:1px solid var(--mb-border);
+  border-radius: var(--mb-radius);
+  margin-bottom:16px;
+  overflow:hidden;
+}
+.widget-box .widget-title,
+.widget-box h2.widget-title,
+.widget-box h3{
+  margin:0;
+  background: linear-gradient(180deg, var(--mb-gold-light), var(--mb-gold-mid));
+  border-bottom:1px solid var(--mb-gold-dark);
+  color:#2c2210;
+  font-size:.95rem;
+  font-weight:bold;
+  padding:7px 10px;
+}
+.widget-box .widget-body{ padding:10px 12px; font-size:.9rem; }
+.widget-box ul li{
+  padding:4px 0;
+  border-bottom:1px dotted var(--mb-border-light);
+}
+.widget-box ul li:last-child{ border-bottom:none; }
+.widget-box a{ text-decoration:underline; }
+
+/* Bal oldal - Menü doboz mint navigáció */
+.mb-menu-box ul ul{ padding-left:12px; }
+.mb-menu-box a{
+  display:block;
+  padding:6px 10px;
+  text-decoration:none;
+  color: var(--mb-brown-link);
+  border-bottom:1px dotted var(--mb-border-light);
+}
+.mb-menu-box li:last-child > a{ border-bottom:none; }
+.mb-menu-box a:hover{ background: var(--mb-cream); color: var(--mb-brown-link-hover); }
+.mb-menu-box .widget-body{ padding:0; }
+
+/* Elérhetőségek doboz */
+.mb-contact-box img{ display:block; margin-bottom:8px; border:1px solid var(--mb-border-light); }
+.mb-contact-box address{ font-style:normal; margin:0 0 8px; }
+.mb-contact-box ul li{ border-bottom:none; padding:2px 0; }
+
+/* Banner kép sáv (bal oldal, pályázati logók) */
+.mb-banner-widgets img{ display:block; margin-bottom:14px; border:1px solid var(--mb-border-light); }
+
+/* -----------------------------------------------------------
+   5. Gyorslink gombsor (középső tartalom teteje)
+----------------------------------------------------------- */
+.mb-quicklinks{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:10px;
+  margin:16px 0 24px;
+}
+.mb-quicklinks a{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  min-height:64px;
+  padding:10px 12px;
+  border-radius: var(--mb-radius);
+  text-decoration:none;
+  font-weight:bold;
+  font-size:.92rem;
+  color:#2c2210;
+  background: linear-gradient(180deg, var(--mb-gold-light), var(--mb-gold-dark));
+  border:1px solid #8a6d40;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.4);
+}
+.mb-quicklinks a:hover{ filter:brightness(1.05); }
+.mb-quicklinks a.mb-quicklink-highlight{
+  background: linear-gradient(180deg, #a7c760, var(--mb-green-dark));
+  color:#20320c;
+  border-color: var(--mb-green-dark);
+}
+@media (max-width: 700px){
+  .mb-quicklinks{ grid-template-columns:repeat(2, 1fr); }
+}
+
+/* -----------------------------------------------------------
+   6. Lapozó (oldal tetején lévő 1 2 3 4 5 számozás)
+----------------------------------------------------------- */
+.mb-pagination{
+  display:flex;
+  justify-content:center;
+  gap:6px;
+  margin-bottom:18px;
+}
+.mb-pagination a, .mb-pagination span{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:26px;height:26px;
+  border-radius: var(--mb-radius);
+  border:1px solid var(--mb-border);
+  text-decoration:none;
+  font-size:.85rem;
+  background: var(--mb-cream-lighter);
+}
+.mb-pagination .current{
+  background:#4a86c8;
+  border-color:#3a6fa8;
+  color:#fff;
+}
+
+/* -----------------------------------------------------------
+   7. Hírblokkok (kétoszlopos: Kiemelt hírek / Kiemelt cikkek)
+----------------------------------------------------------- */
+.mb-news-columns{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+}
+@media (max-width: 700px){
+  .mb-news-columns{ grid-template-columns:1fr; }
+}
+.mb-news-column .mb-column-title{
+  background: linear-gradient(180deg, var(--mb-gold-light), var(--mb-gold-mid));
+  border:1px solid var(--mb-gold-dark);
+  border-radius: var(--mb-radius);
+  padding:8px 12px;
+  font-weight:bold;
+  margin-bottom:14px;
+}
+.mb-article{ margin-bottom:22px; padding-bottom:16px; border-bottom:1px solid var(--mb-border-light); }
+.mb-article:last-child{ border-bottom:none; }
+.mb-article h3{ margin:0 0 4px; font-size:1.05rem; }
+.mb-article h3 a{ text-decoration:none; }
+.mb-article .mb-meta{ font-size:.78rem; color:#6b5a3c; margin-bottom:6px; }
+.mb-article .mb-meta span{ margin-right:8px; }
+.mb-article .mb-excerpt{ font-size:.92rem; }
+.mb-readmore{ font-size:.85rem; font-weight:bold; white-space:nowrap; }
+
+/* Tartalom doboz cím (pl. oldal/bejegyzés cím a fő hasábban) */
+.mb-content-title{ font-size:1.4rem; margin:6px 0 14px; }
+
+/* Gombszerű dobozcím a fő tartalomban (pl. "Elérhetőségek" oldal cím) */
+.mb-page-title-box{
+  background: linear-gradient(180deg, var(--mb-gold-light), var(--mb-gold-mid));
+  border:1px solid var(--mb-gold-dark);
+  border-radius: var(--mb-radius);
+  padding:8px 14px;
+  font-weight:bold;
+  font-size:1.1rem;
+  margin-bottom:16px;
+}
+
+/* -----------------------------------------------------------
+   8. Keresés / naptár / anyakönyv widgetek finomítása
+----------------------------------------------------------- */
+.widget_search form{ display:flex; flex-direction:column; gap:6px; }
+.widget_search select, .widget_search input[type=search]{
+  font-family: var(--mb-font-body);
+  padding:5px 6px;
+  border:1px solid var(--mb-border);
+  border-radius: var(--mb-radius);
+  background: #fff;
+}
+.widget_search input[type=submit]{
+  align-self:flex-end;
+  background: var(--mb-gold-mid);
+  border:1px solid var(--mb-gold-dark);
+  padding:5px 12px;
+  border-radius: var(--mb-radius);
+  cursor:pointer;
+}
+
+.widget_calendar table{ width:100%; border-collapse:collapse; font-size:.8rem; }
+.widget_calendar caption{ font-weight:bold; padding-bottom:4px; }
+.widget_calendar th, .widget_calendar td{ text-align:center; padding:3px 2px; }
+.widget_calendar #today{ background: var(--mb-gold-light); border-radius:2px; }
+
+.mb-registry-tabs{ display:flex; gap:4px; margin-bottom:8px; }
+.mb-registry-tabs button{
+  flex:1;
+  padding:5px 4px;
+  font-size:.78rem;
+  border:1px solid var(--mb-border);
+  background: var(--mb-cream);
+  cursor:pointer;
+  border-radius: var(--mb-radius);
+}
+.mb-registry-tabs button.active{ background: var(--mb-gold-mid); font-weight:bold; }
+.mb-registry-panel{ display:none; font-size:.88rem; }
+.mb-registry-panel.active{ display:block; }
+.mb-registry-panel p{ margin:0 0 10px; }
+
+.mb-greeting-widget img{ float:left; margin:0 10px 8px 0; border:1px solid var(--mb-border-light); }
+.mb-greeting-widget p{ margin:0 0 8px; font-size:.9rem; }
+
+/* -----------------------------------------------------------
+   9. Lábléc
+----------------------------------------------------------- */
+#colophon{
+  border-top:2px solid var(--mb-gold-dark);
+  background: var(--mb-cream-light);
+  margin-top:24px;
+}
+#colophon .container{
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:8px;
+  padding:14px 16px;
+  font-size:.82rem;
+}
+#colophon nav ul{ display:flex; gap:6px; flex-wrap:wrap; }
+#colophon nav ul li:not(:last-child)::after{ content:"|"; margin-left:6px; color: var(--mb-border); }
+#colophon nav a{ text-decoration:underline; }
+
+/* -----------------------------------------------------------
+   10. Egyéb tartalom elemek (single/page/archive/search/404)
+----------------------------------------------------------- */
+.mb-single .entry-meta{ font-size:.8rem; color:#6b5a3c; margin-bottom:10px; }
+.mb-single .entry-content{ font-size:.95rem; }
+.mb-404{ text-align:center; padding:40px 10px; }
+.mb-404 .mb-404-code{ font-family: var(--mb-font-script); font-size:5rem; color: var(--mb-gold-dark); line-height:1; }
