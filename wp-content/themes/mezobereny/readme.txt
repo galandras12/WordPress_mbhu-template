@@ -33,11 +33,16 @@ kép, egy égszínkék színátmenetes helykitöltő jelenik meg.
 -- 3. Logó / "Mezőberény" felirat --
 
 Alapértelmezésben a honlap címe (Beállítások » Általános » Cím)
-díszes, kézírásos betűtípussal (Great Vibes) jelenik meg a fejlécben,
-pontosan úgy, mint az eredeti oldalon. Ha inkább egy kész logóképet
-szeretnél használni, töltsd fel a Megjelenés » Testreszabás » Site
-Identity » Egyedi logó alatt - ekkor a képet fogja megjeleníteni a
-szöveges felirat helyett.
+díszes, kézírásos betűtípussal (Great Vibes) jelenik meg, közvetlenül
+a fejlécképre ráhelyezve (bal alul), alatta egy dekoratív kacskaringó
+vonallal és egy kis címerpajzs-motívummal - pontosan úgy, mint az
+eredeti oldalon. Ha inkább egy kész logóképet szeretnél használni,
+töltsd fel a Megjelenés » Testreszabás » Site Identity » Egyedi logó
+alatt - ekkor a képet fogja megjeleníteni a szöveges felirat helyett
+(a kacskaringó és címer csak a szöveges logóváltozatnál jelenik meg).
+A kis címerpajzs egy általános dekor-elem, nem a tényleges városi
+címer - ha szeretnéd, cseréld le a header.php-ban (mb-logo-crest SVG)
+a valódi címerre.
 
 
 -- 4. Menük --
@@ -45,7 +50,12 @@ szöveges felirat helyett.
 Megjelenés » Menük alatt hozz létre (vagy rendelj hozzá) 3 menüt:
 
   - "Bal oldali Menü doboz"  → a bal oldalsáv "Menü" dobozában jelenik
-    meg (Kezdőlap, Hírek, Városunkról, Önkormányzat, stb.)
+    meg (Kezdőlap, Hírek, Városunkról, Önkormányzat, stb.). Ha egy
+    menüponthoz almenüpontokat adsz (behúzással a Menük szerkesztőben),
+    azok az eredetihez hasonlóan kicsúszó ("flyout") panelként jelennek
+    meg jobbra, amikor az egér a szülő menüpont fölé kerül. Egy adott
+    menüpontot piros-fehér-zöld sávval kiemelhetsz a "menu-flag" CSS
+    osztály hozzáadásával (mint a "Választási információk" az eredetin).
   - "Gyorslink gombsor (főoldal teteje)" → a főoldal tetején lévő
     barna gombsor (pl. "Helyi rendeletek", "Egészségügyi ellátás",
     "Testületi ülések meghívói", stb.). Ha egy menüpontot zöld színnel

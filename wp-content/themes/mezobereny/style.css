@@ -38,6 +38,9 @@ Tags: custom-header, custom-menu, three-columns, translation-ready
   --mb-font-body: Georgia, 'Times New Roman', Times, serif;
   --mb-font-script: 'Great Vibes', 'Brush Script MT', cursive;
   --mb-radius: 3px;
+  --mb-radius-lg: 9px;
+  --mb-khaki-flat: #c3a877;
+  --mb-frame-dark: #4a3418;
   --mb-maxw: 1200px;
 }
 
@@ -123,6 +126,7 @@ ul{ margin:0; padding:0; list-style:none; }
   background: linear-gradient(var(--mb-sky-top), var(--mb-sky-bottom));
   border-bottom: 4px solid var(--mb-gold-dark);
 }
+.mb-header-visual{ position:relative; }
 .site-header .header-image-wrap{
   width:100%;
   overflow:hidden;
@@ -140,38 +144,58 @@ ul{ margin:0; padding:0; list-style:none; }
     linear-gradient(to top, rgba(58,44,24,.15), rgba(58,44,24,0) 60%),
     linear-gradient(var(--mb-sky-top), var(--mb-sky-bottom));
 }
+
+/* A logófelirat közvetlenül a fejlécképre van rátéve (bal alul), ahogy az
+   eredeti oldalon is - nem alatta, önálló sávban. */
 .site-branding{
-  position:relative;
-  margin-top:-70px;
-  padding: 0 16px 6px;
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:6px;
+  padding: 0 16px;
   max-width: var(--mb-maxw);
   margin-left:auto;
   margin-right:auto;
+  pointer-events:none;
 }
 .site-branding .site-title{
   font-family: var(--mb-font-script);
   font-size: 3.4rem;
   line-height:1;
   color:#241c10;
-  text-shadow: 0 1px 0 rgba(255,255,255,.5);
+  text-shadow: 0 1px 2px rgba(255,255,255,.6);
   margin:0;
   display:inline-block;
+  pointer-events:auto;
 }
 .site-branding .site-title a{ color:inherit; text-decoration:none; }
+.mb-logo-flourish{
+  display:block;
+  width:180px;
+  height:auto;
+  margin:-6px 0 0 4px;
+}
+.mb-logo-crest{
+  display:block;
+  width:22px;
+  height:auto;
+  margin:2px 0 0 8px;
+}
 .site-branding .site-description{
   display:block;
   font-family: var(--mb-font-body);
   font-size:.85rem;
   font-style:italic;
   color:#3a2c18;
-  margin-top:-6px;
+  margin-top:2px;
+  pointer-events:auto;
 }
 .custom-logo-link img{ max-height:120px; width:auto; }
 
 .mb-breadcrumb-row{
-  background: var(--mb-cream-light);
-  border-top:1px solid var(--mb-border-light);
-  border-bottom:1px solid var(--mb-border-light);
+  background: var(--mb-khaki-flat);
+  border-top:1px solid var(--mb-gold-dark);
+  border-bottom:2px solid var(--mb-frame-dark);
   font-size:.85rem;
 }
 .mb-breadcrumb-row .container{
@@ -180,11 +204,11 @@ ul{ margin:0; padding:0; list-style:none; }
   align-items:center;
   flex-wrap:wrap;
   gap:6px;
-  padding-top:6px;
-  padding-bottom:6px;
+  padding-top:7px;
+  padding-bottom:7px;
 }
-.mb-breadcrumb a{ text-decoration:none; }
-.mb-today{ color:#4a3a22; }
+.mb-breadcrumb a{ text-decoration:none; color:#2c2210; }
+.mb-today{ color:#2c2210; }
 
 /* Mobil hamburger-menü (a mezőberény.hu-nak nincs gyári mobil nézete) */
 .mb-mobile-nav-bar{ display:none; }
@@ -261,21 +285,22 @@ ul{ margin:0; padding:0; list-style:none; }
 ----------------------------------------------------------- */
 .widget-box{
   background: var(--mb-cream-lighter);
-  border:1px solid var(--mb-border);
-  border-radius: var(--mb-radius);
+  border:1px solid var(--mb-gold-dark);
+  border-radius: var(--mb-radius-lg);
   margin-bottom:16px;
-  overflow:hidden;
+  box-shadow: 0 2px 5px rgba(58,44,24,.18);
 }
 .widget-box .widget-title,
 .widget-box h2.widget-title,
 .widget-box h3{
   margin:0;
-  background: linear-gradient(180deg, var(--mb-gold-light), var(--mb-gold-mid));
+  background: var(--mb-khaki-flat);
   border-bottom:1px solid var(--mb-gold-dark);
+  border-radius: var(--mb-radius-lg) var(--mb-radius-lg) 0 0;
   color:#2c2210;
-  font-size:.95rem;
-  font-weight:bold;
-  padding:7px 10px;
+  font-size:1rem;
+  font-weight:normal;
+  padding:8px 12px;
 }
 .widget-box .widget-body{ padding:10px 12px; font-size:.9rem; }
 .widget-box ul li{
@@ -285,26 +310,70 @@ ul{ margin:0; padding:0; list-style:none; }
 .widget-box ul li:last-child{ border-bottom:none; }
 .widget-box a{ text-decoration:underline; }
 
-/* Bal oldal - Menü doboz mint navigáció */
-.mb-menu-box ul ul{ padding-left:12px; }
+/* Bal oldal - Menü doboz mint navigáció, flyout almenükkel */
+.mb-menu-box .widget-body{ padding:0; }
+.mb-menu-box > .widget-body > ul > li{ position:relative; }
 .mb-menu-box a{
   display:block;
-  padding:6px 10px;
+  padding:8px 12px;
   text-decoration:none;
   color: var(--mb-brown-link);
-  border-bottom:1px dotted var(--mb-border-light);
+  border-bottom:1px solid var(--mb-border-light);
 }
 .mb-menu-box li:last-child > a{ border-bottom:none; }
 .mb-menu-box a:hover{ background: var(--mb-cream); color: var(--mb-brown-link-hover); }
-.mb-menu-box .widget-body{ padding:0; }
+
+/* Almenük: alapból rejtve, a szülő elem fölé görgetéskor (hover/focus) kicsúsznak jobbra,
+   ahogy a mezőberény.hu Menü dobozában is látható. */
+.mb-menu-box .sub-menu{
+  display:none;
+  position:absolute;
+  top:0;
+  left:100%;
+  min-width:220px;
+  background: var(--mb-cream-lighter);
+  border:1px solid var(--mb-gold-dark);
+  box-shadow: 2px 3px 8px rgba(58,44,24,.3);
+  z-index:20;
+}
+.mb-menu-box .sub-menu .sub-menu{ top:0; left:100%; }
+.mb-menu-box li:hover > .sub-menu,
+.mb-menu-box li:focus-within > .sub-menu{ display:block; }
+.mb-menu-box .sub-menu a{ padding:9px 14px; border-bottom:1px solid var(--mb-border-light); white-space:nowrap; }
+.mb-menu-box .sub-menu li:last-child > a{ border-bottom:none; }
+
+/* Opcionális kiemelés: a menüponthoz "menu-flag" CSS osztályt rendelve
+   (Megjelenés » Menük » Menüpont beállításai » CSS osztályok) piros-fehér-zöld
+   sávot kap, ahogy a "Választási információk" tétel az eredeti oldalon. */
+.mb-menu-box li.menu-flag > a,
+.mb-menu-box li.menu-item.menu-flag > a{
+  background: linear-gradient(90deg, #ce2b37 0%, #ce2b37 33%, #ffffff 33%, #ffffff 66%, #2e6b3e 66%, #2e6b3e 100%);
+  color:#241c10;
+  font-weight:bold;
+}
 
 /* Elérhetőségek doboz */
-.mb-contact-box img{ display:block; margin-bottom:8px; border:1px solid var(--mb-border-light); }
+.mb-contact-box .widget-body{ text-align:center; }
+.mb-contact-box img{
+  display:block;
+  margin:0 auto 10px;
+  border:1px solid var(--mb-border-light);
+  border-radius: var(--mb-radius);
+  box-shadow: 0 2px 5px rgba(58,44,24,.3);
+}
 .mb-contact-box address{ font-style:normal; margin:0 0 8px; }
-.mb-contact-box ul li{ border-bottom:none; padding:2px 0; }
+.mb-contact-box ul{ text-align:center; }
+.mb-contact-box ul li{ border-bottom:1px solid var(--mb-border-light); padding:6px 0; }
+.mb-contact-box ul li:last-child{ border-bottom:none; }
 
 /* Banner kép sáv (bal oldal, pályázati logók) */
-.mb-banner-widgets img{ display:block; margin-bottom:14px; border:1px solid var(--mb-border-light); }
+.mb-banner-widgets img{
+  display:block;
+  margin-bottom:14px;
+  border:1px solid var(--mb-border-light);
+  border-radius: var(--mb-radius);
+  box-shadow: 0 2px 5px rgba(58,44,24,.2);
+}
 
 /* -----------------------------------------------------------
    5. Gyorslink gombsor (középső tartalom teteje)
@@ -316,26 +385,36 @@ ul{ margin:0; padding:0; list-style:none; }
   margin:16px 0 24px;
 }
 .mb-quicklinks a{
+  position:relative;
   display:flex;
   align-items:center;
   justify-content:center;
   text-align:center;
-  min-height:64px;
-  padding:10px 12px;
-  border-radius: var(--mb-radius);
+  min-height:68px;
+  padding:10px 14px;
+  border-radius: var(--mb-radius-lg);
   text-decoration:none;
   font-weight:bold;
   font-size:.92rem;
-  color:#2c2210;
-  background: linear-gradient(180deg, var(--mb-gold-light), var(--mb-gold-dark));
-  border:1px solid #8a6d40;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.4);
+  color:#4a2408;
+  text-shadow: 0 1px 0 rgba(255,255,255,.35);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.75) 0%, rgba(255,255,255,0) 55%),
+    linear-gradient(180deg, var(--mb-gold-light) 0%, var(--mb-gold-mid) 45%, var(--mb-gold-dark) 60%, #8a6d40 100%);
+  border:1px solid #6b5028;
+  box-shadow:
+    0 3px 6px rgba(43,26,8,.35),
+    inset 0 1px 0 rgba(255,255,255,.5);
+  transition: filter .15s ease, transform .1s ease;
 }
-.mb-quicklinks a:hover{ filter:brightness(1.05); }
+.mb-quicklinks a:hover{ filter:brightness(1.06); }
+.mb-quicklinks a:active{ transform: translateY(1px); box-shadow: 0 1px 3px rgba(43,26,8,.35), inset 0 1px 0 rgba(255,255,255,.5); }
 .mb-quicklinks a.mb-quicklink-highlight{
-  background: linear-gradient(180deg, #a7c760, var(--mb-green-dark));
-  color:#20320c;
-  border-color: var(--mb-green-dark);
+  color:#16280a;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.75) 0%, rgba(255,255,255,0) 55%),
+    linear-gradient(180deg, #b6d97e 0%, #8fb752 45%, var(--mb-green) 60%, var(--mb-green-dark) 100%);
+  border-color:#4d6b23;
 }
 /* -----------------------------------------------------------
    6. Lapozó (oldal tetején lévő 1 2 3 4 5 számozás)
@@ -375,11 +454,13 @@ ul{ margin:0; padding:0; list-style:none; }
   .mb-news-columns{ grid-template-columns:1fr; }
 }
 .mb-news-column .mb-column-title{
-  background: linear-gradient(180deg, var(--mb-gold-light), var(--mb-gold-mid));
-  border:1px solid var(--mb-gold-dark);
-  border-radius: var(--mb-radius);
-  padding:8px 12px;
-  font-weight:bold;
+  background: var(--mb-khaki-flat);
+  border:3px double var(--mb-frame-dark);
+  border-radius: var(--mb-radius-lg);
+  padding:9px 14px;
+  color:#2c2210;
+  font-weight:normal;
+  font-size:1.1rem;
   margin-bottom:14px;
 }
 .mb-article{ margin-bottom:22px; padding-bottom:16px; border-bottom:1px solid var(--mb-border-light); }
@@ -396,12 +477,13 @@ ul{ margin:0; padding:0; list-style:none; }
 
 /* Gombszerű dobozcím a fő tartalomban (pl. "Elérhetőségek" oldal cím) */
 .mb-page-title-box{
-  background: linear-gradient(180deg, var(--mb-gold-light), var(--mb-gold-mid));
-  border:1px solid var(--mb-gold-dark);
-  border-radius: var(--mb-radius);
-  padding:8px 14px;
-  font-weight:bold;
-  font-size:1.1rem;
+  background: var(--mb-khaki-flat);
+  border:3px double var(--mb-frame-dark);
+  border-radius: var(--mb-radius-lg);
+  padding:9px 16px;
+  color:#2c2210;
+  font-weight:normal;
+  font-size:1.15rem;
   margin-bottom:16px;
 }
 
@@ -502,7 +584,7 @@ ul{ margin:0; padding:0; list-style:none; }
   .site-branding .site-title{ font-size:2.4rem; }
   .site-header .header-image-wrap img,
   .site-header .header-image-placeholder{ max-height:160px; height:160px; }
-  .site-branding{ margin-top:-46px; }
+  .mb-logo-flourish{ width:140px; }
 
   .mb-quicklinks{ grid-template-columns:1fr 1fr; }
 }
@@ -520,9 +602,11 @@ ul{ margin:0; padding:0; list-style:none; }
 
   .site-header .header-image-wrap img,
   .site-header .header-image-placeholder{ max-height:120px; height:120px; }
-  .site-branding{ margin-top:-32px; padding-left:12px; padding-right:12px; }
+  .site-branding{ padding-left:12px; padding-right:12px; }
   .site-branding .site-title{ font-size:1.9rem; }
   .site-branding .site-description{ font-size:.78rem; }
+  .mb-logo-flourish{ width:110px; }
+  .mb-logo-crest{ width:18px; }
 
   .mb-breadcrumb-row .container{ justify-content:center; text-align:center; }
   .mb-breadcrumb-row .mb-today{ width:100%; }

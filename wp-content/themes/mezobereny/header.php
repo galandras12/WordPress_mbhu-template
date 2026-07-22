@@ -27,28 +27,37 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 	</div>
 
 	<header id="masthead" class="site-header">
-		<div class="header-image-wrap">
-			<?php if ( has_header_image() ) : ?>
-				<img src="<?php echo esc_url( get_header_image() ); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>">
-			<?php else : ?>
-				<div class="header-image-placeholder"></div>
-			<?php endif; ?>
-		</div>
-
-		<div class="site-branding">
-			<?php if ( has_custom_logo() ) : ?>
-				<?php the_custom_logo(); ?>
-			<?php else : ?>
-				<?php if ( is_front_page() && is_home() ) : ?>
-					<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
+		<div class="mb-header-visual">
+			<div class="header-image-wrap">
+				<?php if ( has_header_image() ) : ?>
+					<img src="<?php echo esc_url( get_header_image() ); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>">
 				<?php else : ?>
-					<p class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></p>
+					<div class="header-image-placeholder"></div>
 				<?php endif; ?>
-				<?php $description = get_bloginfo( 'description', 'display' ); ?>
-				<?php if ( $description ) : ?>
-					<span class="site-description"><?php echo $description; ?></span>
+			</div>
+
+			<div class="site-branding">
+				<?php if ( has_custom_logo() ) : ?>
+					<?php the_custom_logo(); ?>
+				<?php else : ?>
+					<?php if ( is_front_page() && is_home() ) : ?>
+						<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
+					<?php else : ?>
+						<p class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></p>
+					<?php endif; ?>
+					<svg class="mb-logo-flourish" viewBox="0 0 220 34" aria-hidden="true" focusable="false">
+						<path d="M2 6 C 40 28, 90 -4, 130 18 S 200 30, 216 10" stroke="#241c10" stroke-width="2" fill="none"/>
+					</svg>
+					<svg class="mb-logo-crest" viewBox="0 0 26 32" aria-hidden="true" focusable="false">
+						<path d="M13 1 L24 5 V15 C24 23 19 28 13 31 C7 28 2 23 2 15 V5 Z" fill="#241c10" opacity="0.85"/>
+						<path d="M13 6 L13 24 M8 11 L18 11" stroke="#d8c39a" stroke-width="1.4" fill="none"/>
+					</svg>
+					<?php $description = get_bloginfo( 'description', 'display' ); ?>
+					<?php if ( $description ) : ?>
+						<span class="site-description"><?php echo $description; ?></span>
+					<?php endif; ?>
 				<?php endif; ?>
-			<?php endif; ?>
+			</div>
 		</div>
 
 		<div class="mb-breadcrumb-row">
