@@ -57,4 +57,24 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 				<span class="mb-today"><?php echo esc_html( mezobereny_today_string() ); ?></span>
 			</div>
 		</div>
+
+		<div class="mb-mobile-nav-bar">
+			<button type="button" class="mb-mobile-nav-toggle" aria-expanded="false" aria-controls="mb-mobile-nav">
+				<span class="mb-hamburger" aria-hidden="true"></span>
+				<?php esc_html_e( 'Menü', 'mezobereny' ); ?>
+			</button>
+		</div>
+		<nav id="mb-mobile-nav" class="mb-mobile-nav" aria-label="<?php esc_attr_e( 'Mobil menü', 'mezobereny' ); ?>">
+			<?php
+			if ( has_nav_menu( 'primary' ) ) {
+				wp_nav_menu( array(
+					'theme_location' => 'primary',
+					'container'      => false,
+					'items_wrap'     => '<ul>%3$s</ul>',
+				) );
+			} else {
+				mezobereny_fallback_primary_menu();
+			}
+			?>
+		</nav>
 	</header>

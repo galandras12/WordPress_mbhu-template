@@ -186,6 +186,56 @@ ul{ margin:0; padding:0; list-style:none; }
 .mb-breadcrumb a{ text-decoration:none; }
 .mb-today{ color:#4a3a22; }
 
+/* Mobil hamburger-menü (a mezőberény.hu-nak nincs gyári mobil nézete) */
+.mb-mobile-nav-bar{ display:none; }
+.mb-mobile-nav-toggle{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  width:100%;
+  padding:10px 16px;
+  background: linear-gradient(180deg, var(--mb-gold-light), var(--mb-gold-mid));
+  border:none;
+  border-top:1px solid var(--mb-border-light);
+  border-bottom:1px solid var(--mb-gold-dark);
+  color:#2c2210;
+  font-family: var(--mb-font-body);
+  font-weight:bold;
+  font-size:1rem;
+  cursor:pointer;
+}
+.mb-hamburger, .mb-hamburger::before, .mb-hamburger::after{
+  content:"";
+  display:block;
+  width:22px;
+  height:2px;
+  background:#2c2210;
+  border-radius:1px;
+}
+.mb-hamburger{ position:relative; }
+.mb-hamburger::before{ position:absolute; top:-6px; }
+.mb-hamburger::after{ position:absolute; top:6px; }
+.mb-mobile-nav-toggle.is-active .mb-hamburger{ background:transparent; }
+.mb-mobile-nav-toggle.is-active .mb-hamburger::before{ top:0; transform:rotate(45deg); }
+.mb-mobile-nav-toggle.is-active .mb-hamburger::after{ top:0; transform:rotate(-45deg); }
+
+.mb-mobile-nav{
+  display:none;
+  background: var(--mb-cream-lighter);
+  border-bottom:3px solid var(--mb-gold-dark);
+}
+.mb-mobile-nav.is-open{ display:block; }
+.mb-mobile-nav ul ul{ padding-left:14px; }
+.mb-mobile-nav a{
+  display:block;
+  padding:11px 16px;
+  text-decoration:none;
+  color: var(--mb-brown-link);
+  border-bottom:1px dotted var(--mb-border-light);
+}
+.mb-mobile-nav a:active,
+.mb-mobile-nav a:hover{ background: var(--mb-cream); }
+
 /* -----------------------------------------------------------
    3. Három hasábos elrendezés
 ----------------------------------------------------------- */
@@ -204,12 +254,6 @@ ul{ margin:0; padding:0; list-style:none; }
 #primary{
   flex:1 1 auto;
   min-width:0;
-}
-
-@media (max-width: 900px){
-  .site-columns{ flex-wrap:wrap; }
-  .sidebar-col{ flex:1 1 100%; width:100%; }
-  .site-branding .site-title{ font-size:2.4rem; }
 }
 
 /* -----------------------------------------------------------
@@ -293,10 +337,6 @@ ul{ margin:0; padding:0; list-style:none; }
   color:#20320c;
   border-color: var(--mb-green-dark);
 }
-@media (max-width: 700px){
-  .mb-quicklinks{ grid-template-columns:repeat(2, 1fr); }
-}
-
 /* -----------------------------------------------------------
    6. Lapozó (oldal tetején lévő 1 2 3 4 5 számozás)
 ----------------------------------------------------------- */
@@ -435,3 +475,69 @@ ul{ margin:0; padding:0; list-style:none; }
 .mb-single .entry-content{ font-size:.95rem; }
 .mb-404{ text-align:center; padding:40px 10px; }
 .mb-404 .mb-404-code{ font-family: var(--mb-font-script); font-size:5rem; color: var(--mb-gold-dark); line-height:1; }
+
+/* -----------------------------------------------------------
+   11. Mobil nézet
+   (a mezőberény.hu-nak nincs gyári mobil nézete - ez a szakasz adja
+   hozzá; szándékosan a stíluslap legvégén van, hogy minden korábbi,
+   azonos súlyú szabályt felülírjon a kaszkádban)
+----------------------------------------------------------- */
+
+/* ---- Tablet / mobil (≤900px): hamburger-navigáció, tartalom előre ---- */
+@media (max-width: 900px){
+  .mb-mobile-nav-bar{ display:block; }
+
+  .site-columns{ flex-wrap:wrap; margin-top:0; }
+  .sidebar-col{ flex:1 1 100%; width:100%; }
+
+  /* Tartalom-előre sorrend: fő tartalom, majd Elérhetőségek/Menü doboz, majd jobb oldalsáv. */
+  #primary{ order:1; width:100%; }
+  .sidebar-col-left{ order:2; }
+  .sidebar-col-right{ order:3; }
+
+  /* A bal oldali "Menü" doboz a hamburger-navigációban már elérhető, ezért mobilon elrejtjük -
+     így a lista nem szerepel duplán. */
+  .mb-menu-box{ display:none; }
+
+  .site-branding .site-title{ font-size:2.4rem; }
+  .site-header .header-image-wrap img,
+  .site-header .header-image-placeholder{ max-height:160px; height:160px; }
+  .site-branding{ margin-top:-46px; }
+
+  .mb-quicklinks{ grid-template-columns:1fr 1fr; }
+}
+
+/* ---- Telefon (≤600px) ---- */
+@media (max-width: 600px){
+  #mb-topbar .container{
+    flex-wrap:wrap;
+    justify-content:center;
+    text-align:center;
+    padding-top:8px;
+    padding-bottom:8px;
+  }
+  #mb-topbar .mb-topbar-label{ width:100%; margin:0 0 4px; }
+
+  .site-header .header-image-wrap img,
+  .site-header .header-image-placeholder{ max-height:120px; height:120px; }
+  .site-branding{ margin-top:-32px; padding-left:12px; padding-right:12px; }
+  .site-branding .site-title{ font-size:1.9rem; }
+  .site-branding .site-description{ font-size:.78rem; }
+
+  .mb-breadcrumb-row .container{ justify-content:center; text-align:center; }
+  .mb-breadcrumb-row .mb-today{ width:100%; }
+
+  .site-columns{ padding:0 10px; gap:10px; margin:10px auto; }
+
+  .mb-quicklinks{ gap:8px; }
+  .mb-news-columns{ gap:12px; }
+
+  #colophon .container{ flex-direction:column; text-align:center; }
+  #colophon nav ul{ justify-content:center; }
+}
+
+/* ---- Kis telefon (≤400px): gyorslinkek egy oszlopban ---- */
+@media (max-width: 400px){
+  .mb-quicklinks{ grid-template-columns:1fr; }
+  .site-branding .site-title{ font-size:1.6rem; }
+}

@@ -102,7 +102,27 @@ névnaptár a legjobb tudásunk szerint készült - érdemes telepítés után
 eltér egymástól.
 
 
--- 8. Betűméret / kontraszt kapcsoló --
+-- 8. Mobil nézet --
+
+Az eredeti mezőberény.hu-nak nincs gyári mobil nézete - ez a sablon
+kap egy sajátot, ami a megszokott kinézetet (aranyszín-krém dobozok,
+betűtípusok, gombok) tartja meg kisebb képernyőn is:
+
+  - ≤900px szélesség alatt megjelenik egy hamburger-gomb a fejléc
+    alatt, ami lenyitja a "Menü" navigációt (ugyanaz a menü, mint a
+    bal oldalsáv Menü doboza - ezért az a doboz mobilon el van rejtve,
+    hogy ne szerepeljen duplán).
+  - A hasábok sorrendje mobilon: előbb a fő tartalom, utána az
+    Elérhetőségek/Menü doboz, végül a jobb oldalsáv - így a
+    látogatónak nem kell hosszan görgetnie a hírekig.
+  - A fejléckép és a cirkalmas logófelirat kisebb képernyőn arányosan
+    zsugorodik (900px / 600px / 400px töréspontok).
+  - A gyorslink gombsor 2, majd 1 oszlopossá válik keskeny
+    képernyőkön; a lábléc és a felső kisegítő sáv középre igazítva,
+    tördelve jelenik meg.
+
+
+-- 9. Betűméret / kontraszt kapcsoló --
 
 A felső sávban lévő "A A A" gombok és a kontraszt-ikon valós funkciót
 látnak el (assets/js/accessibility.js): a betűméretet és egy egyszerű
@@ -110,7 +130,7 @@ sötét kontrasztos nézetet kapcsolnak, a választást a böngésző menti
 (localStorage), így visszatéréskor is megmarad.
 
 
--- 9. Színek / stílus finomhangolása --
+-- 10. Színek / stílus finomhangolása --
 
 Minden szín CSS-változóként van definiálva a style.css tetején
 (:root { --mb-cream: ...; --mb-gold-dark: ...; stb. }) - ha az élő
