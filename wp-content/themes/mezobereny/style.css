@@ -210,7 +210,18 @@ ul{ margin:0; padding:0; list-style:none; }
 .mb-breadcrumb a{ text-decoration:none; color:#2c2210; }
 .mb-today{ color:#2c2210; }
 
-/* Mobil hamburger-menü (a mezőberény.hu-nak nincs gyári mobil nézete) */
+/* Mobil hamburger-menü (a mezőberény.hu-nak nincs gyári mobil nézete).
+   Tiszta CSS "checkbox-hack" - a rejtett checkbox állapotát a label
+   kapcsolja, a láthatóságot pedig testvér-szelektorok vezérlik.
+   Szándékosan NINCS hozzá JavaScript, hogy AMP oldalakon (ahol az AMP
+   plugin eltávolítja az egyedi szkripteket) is működjön a navigáció. */
+.mb-mobile-nav-checkbox{
+  position:absolute;
+  opacity:0;
+  width:1px;
+  height:1px;
+  pointer-events:none;
+}
 .mb-mobile-nav-bar{ display:none; }
 .mb-mobile-nav-toggle{
   display:flex;
@@ -227,6 +238,11 @@ ul{ margin:0; padding:0; list-style:none; }
   font-weight:bold;
   font-size:1rem;
   cursor:pointer;
+  user-select:none;
+}
+.mb-mobile-nav-checkbox:focus-visible ~ .mb-mobile-nav-bar .mb-mobile-nav-toggle{
+  outline:2px solid #2c2210;
+  outline-offset:-2px;
 }
 .mb-hamburger, .mb-hamburger::before, .mb-hamburger::after{
   content:"";
@@ -239,16 +255,16 @@ ul{ margin:0; padding:0; list-style:none; }
 .mb-hamburger{ position:relative; }
 .mb-hamburger::before{ position:absolute; top:-6px; }
 .mb-hamburger::after{ position:absolute; top:6px; }
-.mb-mobile-nav-toggle.is-active .mb-hamburger{ background:transparent; }
-.mb-mobile-nav-toggle.is-active .mb-hamburger::before{ top:0; transform:rotate(45deg); }
-.mb-mobile-nav-toggle.is-active .mb-hamburger::after{ top:0; transform:rotate(-45deg); }
+.mb-mobile-nav-checkbox:checked ~ .mb-mobile-nav-bar .mb-hamburger{ background:transparent; }
+.mb-mobile-nav-checkbox:checked ~ .mb-mobile-nav-bar .mb-hamburger::before{ top:0; transform:rotate(45deg); }
+.mb-mobile-nav-checkbox:checked ~ .mb-mobile-nav-bar .mb-hamburger::after{ top:0; transform:rotate(-45deg); }
 
 .mb-mobile-nav{
   display:none;
   background: var(--mb-cream-lighter);
   border-bottom:3px solid var(--mb-gold-dark);
 }
-.mb-mobile-nav.is-open{ display:block; }
+.mb-mobile-nav-checkbox:checked ~ .mb-mobile-nav{ display:block; }
 .mb-mobile-nav ul ul{ padding-left:14px; }
 .mb-mobile-nav a{
   display:block;
@@ -512,20 +528,40 @@ ul{ margin:0; padding:0; list-style:none; }
 .widget_calendar th, .widget_calendar td{ text-align:center; padding:3px 2px; }
 .widget_calendar #today{ background: var(--mb-gold-light); border-radius:2px; }
 
+/* Anyakönyvi hírek fül-váltó - tiszta CSS "radio-hack": a rejtett
+   rádiógombok állapotát a label kapcsolja, JavaScript nélkül (AMP-on
+   is működik). */
+.mb-registry-radio{
+  position:absolute;
+  opacity:0;
+  width:1px;
+  height:1px;
+  pointer-events:none;
+}
 .mb-registry-tabs{ display:flex; gap:4px; margin-bottom:8px; }
-.mb-registry-tabs button{
+.mb-registry-tabs label{
   flex:1;
+  text-align:center;
   padding:5px 4px;
   font-size:.78rem;
   border:1px solid var(--mb-border);
   background: var(--mb-cream);
   cursor:pointer;
   border-radius: var(--mb-radius);
+  user-select:none;
 }
-.mb-registry-tabs button.active{ background: var(--mb-gold-mid); font-weight:bold; }
 .mb-registry-panel{ display:none; font-size:.88rem; }
-.mb-registry-panel.active{ display:block; }
 .mb-registry-panel p{ margin:0 0 10px; }
+
+.mb-registry-radio:first-of-type:checked ~ .mb-registry-tabs label:first-of-type,
+.mb-registry-radio:last-of-type:checked ~ .mb-registry-tabs label:last-of-type{
+  background: var(--mb-gold-mid);
+  font-weight:bold;
+}
+.mb-registry-radio:first-of-type:checked ~ .mb-registry-panel-married,
+.mb-registry-radio:last-of-type:checked ~ .mb-registry-panel-deceased{
+  display:block;
+}
 
 .mb-greeting-widget img{ float:left; margin:0 10px 8px 0; border:1px solid var(--mb-border-light); }
 .mb-greeting-widget p{ margin:0 0 8px; font-size:.9rem; }
@@ -564,6 +600,13 @@ ul{ margin:0; padding:0; list-style:none; }
    hozzá; szándékosan a stíluslap legvégén van, hogy minden korábbi,
    azonos súlyú szabályt felülírjon a kaszkádban)
 ----------------------------------------------------------- */
+
+/* ---- Asztali nézet (≥901px): a kicsúszó menü mindig rejtve marad,
+   még akkor is, ha a checkbox véletlenül "bejelölt" állapotban maradt
+   (pl. mobilról átméretezett ablak) - a bal Menü doboz a navigáció itt. ---- */
+@media (min-width: 901px){
+  .mb-mobile-nav{ display:none !important; }
+}
 
 /* ---- Tablet / mobil (≤900px): hamburger-navigáció, tartalom előre ---- */
 @media (max-width: 900px){

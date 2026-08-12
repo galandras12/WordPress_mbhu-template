@@ -140,7 +140,49 @@ sötét kontrasztos nézetet kapcsolnak, a választást a böngésző menti
 (localStorage), így visszatéréskor is megmarad.
 
 
--- 10. Színek / stílus finomhangolása --
+-- 10. AMP támogatás --
+
+A téma együttműködik a hivatalos "AMP" WordPress-pluginnal
+(Automattic / Google - a wordpress.org bővítménytárból telepíthető,
+plugin neve egyszerűen "AMP"). Beállítás:
+
+  1. Telepítsd és aktiváld az "AMP" pluginot (Bővítmények » Új
+     hozzáadása » keresés: "AMP" - a hivatalos, Automattic által
+     jegyzett pluginra van szükség).
+  2. AMP » Beállítások alatt válaszd a "Transitional" (átmeneti) módot.
+     Ebben a módban minden oldalnak lesz egy külön AMP-változata
+     (pl. /hirek/valami-cikk/?amp=1), a normál oldal pedig változatlanul
+     működik tovább - ez adja a legjobb egyensúlyt kompatibilitás és
+     Google-es AMP-megjelenés között. ("Standard" mód esetén az egész
+     oldal AMP lenne, ami a jelen témával is működik, de kevésbé
+     hibatűrő.)
+  3. A téma automatikusan jelzi a pluginnak (add_theme_support('amp')
+     a functions.php-ban), hogy a saját sablonjait használhatja az
+     AMP-változathoz is - a plugin ekkor a kimenetet automatikusan
+     "szanitizálja" (pl. <img> → <amp-img>, a nem engedélyezett elemek
+     eltávolítása), nincs hozzá külön teendő.
+
+Amire figyelni kell - az AMP szabvány NEM engedélyez semmilyen egyedi
+JavaScriptet egyetlen oldalon sem, ezért:
+
+  - A mobil hamburger-menü és az Anyakönyvi hírek widget
+    fül-váltója szándékosan tiszta CSS-sel (checkbox/radio-hack
+    technikával) készült - ezek AMP-oldalon is teljes értékűen,
+    JavaScript nélkül működnek.
+  - A felső sávban lévő betűméret-váltó ("A A A") és a kontraszt-ikon
+    JavaScriptet igényel (assets/js/accessibility.js), ezért AMP-
+    oldalakon a plugin eltávolítja a hozzá tartozó szkriptet - a gombok
+    megjelennek, de AMP-oldalon nem lesz funkciójuk. Ez egy tudatosan
+    vállalt, dokumentált korlátozás; a nem-AMP (kanonikus) oldalon
+    ezek továbbra is teljes értékűen működnek.
+  - Az AMP validátor (AMP » Hibák menüpont a admin felületen) mutatja,
+    ha bármelyik oldaltípus (pl. egyedi widget-tartalom) mégis AMP-
+    inkompatibilis jelölést tartalmazna - ez jellemzően a bejegyzések/
+    oldalak szerkesztőjében kézzel beszúrt HTML-ből fakadhat, nem a
+    témából.
+
+
+-- 11. Színek / stílus finomhangolása --
 
 Minden szín CSS-változóként van definiálva a style.css tetején
 (:root { --mb-cream: ...; --mb-gold-dark: ...; stb. }) - ha az élő

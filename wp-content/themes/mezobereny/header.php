@@ -30,7 +30,14 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 		<div class="mb-header-visual">
 			<div class="header-image-wrap">
 				<?php if ( has_header_image() ) : ?>
-					<img src="<?php echo esc_url( get_header_image() ); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>">
+					<?php
+					// Explicit width/height kell ahhoz, hogy az AMP plugin biztonságosan
+					// <amp-img>-gé tudja alakítani ezt a képet (layout="responsive").
+					$mb_header_data = get_custom_header();
+					$mb_header_w    = ! empty( $mb_header_data->width ) ? (int) $mb_header_data->width : 1600;
+					$mb_header_h    = ! empty( $mb_header_data->height ) ? (int) $mb_header_data->height : 230;
+					?>
+					<img src="<?php echo esc_url( get_header_image() ); ?>" width="<?php echo esc_attr( $mb_header_w ); ?>" height="<?php echo esc_attr( $mb_header_h ); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>">
 				<?php else : ?>
 					<div class="header-image-placeholder"></div>
 				<?php endif; ?>
@@ -67,11 +74,15 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 			</div>
 		</div>
 
+		<?php /* Tiszta CSS "checkbox-hack" kapcsoló - JavaScript nélkül működik,
+		         így AMP oldalakon is használható (az AMP eltávolítja az egyedi
+		         JS-t, de a natív checkbox/label/CSS mechanizmus megmarad). */ ?>
+		<input type="checkbox" id="mb-mobile-nav-toggle" class="mb-mobile-nav-checkbox">
 		<div class="mb-mobile-nav-bar">
-			<button type="button" class="mb-mobile-nav-toggle" aria-expanded="false" aria-controls="mb-mobile-nav">
+			<label for="mb-mobile-nav-toggle" class="mb-mobile-nav-toggle">
 				<span class="mb-hamburger" aria-hidden="true"></span>
 				<?php esc_html_e( 'Menü', 'mezobereny' ); ?>
-			</button>
+			</label>
 		</div>
 		<nav id="mb-mobile-nav" class="mb-mobile-nav" aria-label="<?php esc_attr_e( 'Mobil menü', 'mezobereny' ); ?>">
 			<?php

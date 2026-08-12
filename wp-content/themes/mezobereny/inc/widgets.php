@@ -105,32 +105,25 @@ class Mezobereny_Registry_Widget extends WP_Widget {
 		$deceased = ! empty( $instance['deceased'] ) ? $instance['deceased'] : '';
 		$heading  = ! empty( $instance['month_label'] ) ? $instance['month_label'] : '';
 		?>
-		<div class="widget-body" id="<?php echo esc_attr( $uid ); ?>">
+		<?php
+		// Tiszta CSS "radio-hack" fül-váltó - nincs hozzá JavaScript, így AMP
+		// oldalakon is működik (az AMP eltávolítja az egyedi szkripteket).
+		$id_married  = $uid . '-married';
+		$id_deceased = $uid . '-deceased';
+		?>
+		<div class="widget-body mb-registry-widget" id="<?php echo esc_attr( $uid ); ?>">
 			<?php if ( $heading ) : ?>
 				<p><strong><?php echo esc_html( $heading ); ?></strong></p>
 			<?php endif; ?>
+			<input type="radio" class="mb-registry-radio" name="<?php echo esc_attr( $uid ); ?>-tabs" id="<?php echo esc_attr( $id_married ); ?>" checked>
+			<input type="radio" class="mb-registry-radio" name="<?php echo esc_attr( $uid ); ?>-tabs" id="<?php echo esc_attr( $id_deceased ); ?>">
 			<div class="mb-registry-tabs">
-				<button type="button" class="active" data-target="<?php echo esc_attr( $uid ); ?>-married"><?php _e( 'Megházasodtak', 'mezobereny' ); ?></button>
-				<button type="button" data-target="<?php echo esc_attr( $uid ); ?>-deceased"><?php _e( 'Elhunytak', 'mezobereny' ); ?></button>
+				<label for="<?php echo esc_attr( $id_married ); ?>"><?php _e( 'Megházasodtak', 'mezobereny' ); ?></label>
+				<label for="<?php echo esc_attr( $id_deceased ); ?>"><?php _e( 'Elhunytak', 'mezobereny' ); ?></label>
 			</div>
-			<div class="mb-registry-panel active" id="<?php echo esc_attr( $uid ); ?>-married"><?php echo wpautop( wp_kses_post( $married ) ); ?></div>
-			<div class="mb-registry-panel" id="<?php echo esc_attr( $uid ); ?>-deceased"><?php echo wpautop( wp_kses_post( $deceased ) ); ?></div>
+			<div class="mb-registry-panel mb-registry-panel-married"><?php echo wpautop( wp_kses_post( $married ) ); ?></div>
+			<div class="mb-registry-panel mb-registry-panel-deceased"><?php echo wpautop( wp_kses_post( $deceased ) ); ?></div>
 		</div>
-		<script>
-		(function(){
-			var box = document.getElementById(<?php echo wp_json_encode( $uid ); ?>);
-			if(!box) return;
-			var btns = box.querySelectorAll('.mb-registry-tabs button');
-			btns.forEach(function(btn){
-				btn.addEventListener('click', function(){
-					btns.forEach(function(b){ b.classList.remove('active'); });
-					box.querySelectorAll('.mb-registry-panel').forEach(function(p){ p.classList.remove('active'); });
-					btn.classList.add('active');
-					document.getElementById(btn.getAttribute('data-target')).classList.add('active');
-				});
-			});
-		})();
-		</script>
 		<?php
 		echo $args['after_widget'];
 	}

@@ -42,6 +42,16 @@ function mezobereny_setup() {
 		'quicklinks' => __( 'Gyorslink gombsor (főoldal teteje)', 'mezobereny' ),
 		'footer'     => __( 'Lábléc linksor', 'mezobereny' ),
 	) );
+
+	/**
+	 * Kompatibilitás a hivatalos "AMP" WordPress-pluginnal (Automattic).
+	 * A plugin ez alapján tudja, hogy a téma saját sablonjait használhatja
+	 * az AMP-verzióhoz (Transitional/Standard mód), nem csak a beépített
+	 * "Reader" sablonokat. A plugin automatikusan szanitizálja a kimenetet
+	 * (pl. <img> → <amp-img>), és eltávolítja az AMP által nem engedélyezett
+	 * egyedi JavaScriptet - lásd readme.txt "AMP támogatás" szakasz.
+	 */
+	add_theme_support( 'amp' );
 }
 add_action( 'after_setup_theme', 'mezobereny_setup' );
 
@@ -94,7 +104,6 @@ function mezobereny_scripts() {
 	);
 	wp_enqueue_style( 'mezobereny-style', get_stylesheet_uri(), array(), MEZOBERENY_VERSION );
 	wp_enqueue_script( 'mezobereny-accessibility', get_template_directory_uri() . '/assets/js/accessibility.js', array(), MEZOBERENY_VERSION, true );
-	wp_enqueue_script( 'mezobereny-navigation', get_template_directory_uri() . '/assets/js/navigation.js', array(), MEZOBERENY_VERSION, true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
