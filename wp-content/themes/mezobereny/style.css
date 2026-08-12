@@ -216,10 +216,21 @@ ul{ margin:0; padding:0; list-style:none; }
    Szándékosan NINCS hozzá JavaScript, hogy AMP oldalakon (ahol az AMP
    plugin eltávolítja az egyedi szkripteket) is működjön a navigáció. */
 .mb-mobile-nav-checkbox{
-  position:absolute;
-  opacity:0;
-  width:1px;
-  height:1px;
+  position:absolute !important;
+  top:0 !important;
+  left:0 !important;
+  width:1px !important;
+  height:1px !important;
+  margin:-1px !important;
+  padding:0 !important;
+  border:0 !important;
+  overflow:hidden !important;
+  clip:rect(0,0,0,0) !important;
+  clip-path:inset(50%) !important;
+  white-space:nowrap !important;
+  opacity:0 !important;
+  appearance:none;
+  -webkit-appearance:none;
   pointer-events:none;
 }
 .mb-mobile-nav-bar{ display:none; }
@@ -532,10 +543,21 @@ ul{ margin:0; padding:0; list-style:none; }
    rádiógombok állapotát a label kapcsolja, JavaScript nélkül (AMP-on
    is működik). */
 .mb-registry-radio{
-  position:absolute;
-  opacity:0;
-  width:1px;
-  height:1px;
+  position:absolute !important;
+  top:0 !important;
+  left:0 !important;
+  width:1px !important;
+  height:1px !important;
+  margin:-1px !important;
+  padding:0 !important;
+  border:0 !important;
+  overflow:hidden !important;
+  clip:rect(0,0,0,0) !important;
+  clip-path:inset(50%) !important;
+  white-space:nowrap !important;
+  opacity:0 !important;
+  appearance:none;
+  -webkit-appearance:none;
   pointer-events:none;
 }
 .mb-registry-tabs{ display:flex; gap:4px; margin-bottom:8px; }
