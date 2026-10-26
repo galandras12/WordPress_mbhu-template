@@ -10,7 +10,7 @@ get_header();
 <div class="site-columns">
 	<?php get_sidebar( 'left' ); ?>
 
-	<main id="primary" class="site-main mb-single">
+	<main id="primary" class="site-main mb-single" tabindex="-1">
 		<?php mezobereny_pagination(); ?>
 
 		<?php while ( have_posts() ) : the_post(); ?>

@@ -46,23 +46,23 @@ class Mezobereny_Greeting_Widget extends WP_Widget {
 		$link_text = isset( $instance['link_text'] ) ? $instance['link_text'] : __( 'Tovább a köszöntőhöz', 'mezobereny' );
 		?>
 		<p>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php _e( 'Cím:', 'mezobereny' ); ?></label>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Cím:', 'mezobereny' ); ?></label>
 			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
 		</p>
 		<p>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'image_id' ) ); ?>"><?php _e( 'Kép melléklet-azonosítója (media library ID):', 'mezobereny' ); ?></label>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'image_id' ) ); ?>"><?php esc_html_e( 'Kép melléklet-azonosítója (media library ID):', 'mezobereny' ); ?></label>
 			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'image_id' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'image_id' ) ); ?>" type="number" value="<?php echo esc_attr( $image_id ); ?>">
 		</p>
 		<p>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'text' ) ); ?>"><?php _e( 'Szöveg:', 'mezobereny' ); ?></label>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'text' ) ); ?>"><?php esc_html_e( 'Szöveg:', 'mezobereny' ); ?></label>
 			<textarea class="widefat" rows="5" id="<?php echo esc_attr( $this->get_field_id( 'text' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'text' ) ); ?>"><?php echo esc_textarea( $text ); ?></textarea>
 		</p>
 		<p>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'link_url' ) ); ?>"><?php _e( 'Link URL:', 'mezobereny' ); ?></label>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'link_url' ) ); ?>"><?php esc_html_e( 'Link URL:', 'mezobereny' ); ?></label>
 			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'link_url' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'link_url' ) ); ?>" type="text" value="<?php echo esc_attr( $link_url ); ?>">
 		</p>
 		<p>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'link_text' ) ); ?>"><?php _e( 'Link szövege:', 'mezobereny' ); ?></label>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'link_text' ) ); ?>"><?php esc_html_e( 'Link szövege:', 'mezobereny' ); ?></label>
 			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'link_text' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'link_text' ) ); ?>" type="text" value="<?php echo esc_attr( $link_text ); ?>">
 		</p>
 		<?php
@@ -118,8 +118,8 @@ class Mezobereny_Registry_Widget extends WP_Widget {
 			<input type="radio" class="mb-registry-radio" name="<?php echo esc_attr( $uid ); ?>-tabs" id="<?php echo esc_attr( $id_married ); ?>" checked>
 			<input type="radio" class="mb-registry-radio" name="<?php echo esc_attr( $uid ); ?>-tabs" id="<?php echo esc_attr( $id_deceased ); ?>">
 			<div class="mb-registry-tabs">
-				<label for="<?php echo esc_attr( $id_married ); ?>"><?php _e( 'Megházasodtak', 'mezobereny' ); ?></label>
-				<label for="<?php echo esc_attr( $id_deceased ); ?>"><?php _e( 'Elhunytak', 'mezobereny' ); ?></label>
+				<label for="<?php echo esc_attr( $id_married ); ?>"><?php esc_html_e( 'Megházasodtak', 'mezobereny' ); ?></label>
+				<label for="<?php echo esc_attr( $id_deceased ); ?>"><?php esc_html_e( 'Elhunytak', 'mezobereny' ); ?></label>
 			</div>
 			<div class="mb-registry-panel mb-registry-panel-married"><?php echo wpautop( wp_kses_post( $married ) ); ?></div>
 			<div class="mb-registry-panel mb-registry-panel-deceased"><?php echo wpautop( wp_kses_post( $deceased ) ); ?></div>
@@ -135,19 +135,19 @@ class Mezobereny_Registry_Widget extends WP_Widget {
 		$deceased    = isset( $instance['deceased'] ) ? $instance['deceased'] : '';
 		?>
 		<p>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php _e( 'Cím:', 'mezobereny' ); ?></label>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Cím:', 'mezobereny' ); ?></label>
 			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
 		</p>
 		<p>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'month_label' ) ); ?>"><?php _e( 'Felirat (pl. "2026. június hónapban házasságot kötöttek"):', 'mezobereny' ); ?></label>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'month_label' ) ); ?>"><?php esc_html_e( 'Felirat (pl. "2026. június hónapban házasságot kötöttek"):', 'mezobereny' ); ?></label>
 			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'month_label' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'month_label' ) ); ?>" type="text" value="<?php echo esc_attr( $month_label ); ?>">
 		</p>
 		<p>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'married' ) ); ?>"><?php _e( 'Megházasodtak (soronként):', 'mezobereny' ); ?></label>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'married' ) ); ?>"><?php esc_html_e( 'Megházasodtak (soronként):', 'mezobereny' ); ?></label>
 			<textarea class="widefat" rows="5" id="<?php echo esc_attr( $this->get_field_id( 'married' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'married' ) ); ?>"><?php echo esc_textarea( $married ); ?></textarea>
 		</p>
 		<p>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'deceased' ) ); ?>"><?php _e( 'Elhunytak (soronként):', 'mezobereny' ); ?></label>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'deceased' ) ); ?>"><?php esc_html_e( 'Elhunytak (soronként):', 'mezobereny' ); ?></label>
 			<textarea class="widefat" rows="5" id="<?php echo esc_attr( $this->get_field_id( 'deceased' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'deceased' ) ); ?>"><?php echo esc_textarea( $deceased ); ?></textarea>
 		</p>
 		<?php

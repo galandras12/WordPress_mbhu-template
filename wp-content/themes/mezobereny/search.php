@@ -10,7 +10,7 @@ get_header();
 <div class="site-columns">
 	<?php get_sidebar( 'left' ); ?>
 
-	<main id="primary" class="site-main">
+	<main id="primary" class="site-main" tabindex="-1">
 		<h1 class="mb-page-title-box">
 			<?php
 			printf(
@@ -24,12 +24,12 @@ get_header();
 		<?php if ( have_posts() ) : ?>
 			<?php while ( have_posts() ) : the_post(); ?>
 				<article <?php post_class( 'mb-article' ); ?>>
-					<h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+					<h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
 					<p class="mb-meta">
 						<span><?php echo esc_html( get_the_date() ); ?></span>
 					</p>
 					<div class="mb-excerpt"><?php mezobereny_excerpt(); ?></div>
-					<p><a class="mb-readmore" href="<?php the_permalink(); ?>"><?php esc_html_e( 'Bővebben »', 'mezobereny' ); ?></a></p>
+					<p><a class="mb-readmore" href="<?php the_permalink(); ?>"><?php esc_html_e( 'Bővebben »', 'mezobereny' ); ?><span class="screen-reader-text"> <?php the_title(); ?></span></a></p>
 				</article>
 			<?php endwhile; ?>
 			<?php mezobereny_pagination(); ?>

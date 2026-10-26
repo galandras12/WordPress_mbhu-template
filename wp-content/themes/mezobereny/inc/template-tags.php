@@ -9,36 +9,46 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * "Kezdőlap » Aktuális oldal" morzsamenü, ahogy a mezobereny.hu fejlécében is látható.
  */
 function mezobereny_breadcrumb() {
-	echo '<nav class="mb-breadcrumb" aria-label="' . esc_attr__( 'Morzsamenü', 'mezobereny' ) . '">';
-	echo '<a href="' . esc_url( home_url( '/' ) ) . '">' . esc_html__( 'Kezdőlap', 'mezobereny' ) . '</a>';
+	$sep = ' <span class="mb-breadcrumb-sep" aria-hidden="true">»</span> ';
+	$current = '';
 
 	if ( is_front_page() ) {
 		// Csak "Kezdőlap" jelenik meg.
 	} elseif ( is_search() ) {
-		echo ' » ' . esc_html__( 'Keresési találatok', 'mezobereny' );
+		$current = __( 'Keresési találatok', 'mezobereny' );
 	} elseif ( is_404() ) {
-		echo ' » ' . esc_html__( 'A keresett oldal nem található', 'mezobereny' );
+		$current = __( 'A keresett oldal nem található', 'mezobereny' );
 	} elseif ( is_category() || is_tag() || is_tax() ) {
-		echo ' » ' . esc_html( single_term_title( '', false ) );
+		$current = single_term_title( '', false );
 	} elseif ( is_archive() ) {
-		echo ' » ' . esc_html( get_the_archive_title() );
+		$current = get_the_archive_title();
 	} elseif ( is_singular() ) {
-		echo ' » ' . esc_html( get_the_title() );
+		$current = get_the_title();
 	}
 
+	echo '<nav class="mb-breadcrumb" aria-label="' . esc_attr__( 'Morzsamenü', 'mezobereny' ) . '">';
+	if ( '' === $current ) {
+		echo '<span aria-current="page">' . esc_html__( 'Kezdőlap', 'mezobereny' ) . '</span>';
+	} else {
+		echo '<a href="' . esc_url( home_url( '/' ) ) . '">' . esc_html__( 'Kezdőlap', 'mezobereny' ) . '</a>';
+		echo $sep . '<span aria-current="page">' . esc_html( $current ) . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput
+	}
 	echo '</nav>';
 }
 
 /**
  * Kör alakú, számozott lapozó a tartalom tetején (1 2 3 4 5 stílus).
  */
-function mezobereny_pagination() {
-	global $wp_query;
-	$big = 999999999;
+function mezobereny_pagination( $query = null ) {
+	if ( ! $query instanceof WP_Query ) {
+		global $wp_query;
+		$query = $wp_query;
+	}
+	$big   = 999999999;
 	$links = paginate_links( array(
 		'base'      => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
-		'current'   => max( 1, get_query_var( 'paged' ) ),
-		'total'     => $wp_query->max_num_pages,
+		'current'   => max( 1, (int) get_query_var( 'paged' ), (int) get_query_var( 'page' ) ),
+		'total'     => (int) $query->max_num_pages,
 		'type'      => 'array',
 		'prev_next' => false,
 	) );
@@ -47,11 +57,11 @@ function mezobereny_pagination() {
 		return;
 	}
 
-	echo '<div class="mb-pagination">';
+	echo '<nav class="mb-pagination" aria-label="' . esc_attr__( 'Lapozás', 'mezobereny' ) . '">';
 	foreach ( $links as $link ) {
-		echo str_replace( 'page-numbers', 'page-numbers', $link );
+		echo $link; // phpcs:ignore WordPress.Security.EscapeOutput -- a paginate_links() már escape-elt kimenete.
 	}
-	echo '</div>';
+	echo '</nav>';
 }
 
 /**
@@ -70,8 +80,7 @@ function mezobereny_quicklinks() {
 		'container_class' => 'mb-quicklinks',
 		'items_wrap'      => '%3$s',
 		'depth'           => 1,
-		'link_before'     => '<span>',
-		'link_after'      => '</span>',
+		'fallback_cb'     => false,
 		'walker'          => new Mezobereny_Quicklinks_Walker(),
 	) );
 }
@@ -87,6 +96,10 @@ class Mezobereny_Quicklinks_Walker extends Walker_Nav_Menu {
 		$output .= '<a class="mb-quicklink' . esc_attr( $extra ) . '" href="' . esc_url( $item->url ) . '">';
 		$output .= '<span>' . esc_html( $item->title ) . '</span></a>';
 	}
+
+	// Az alapértelmezett end_el() egy záró </li>-t írna ki, de itt nincs <li>
+	// (érvénytelen HTML lenne, AMP-n validációs hiba).
+	public function end_el( &$output, $data_object, $depth = 0, $args = null ) {}
 }
 
 /**
