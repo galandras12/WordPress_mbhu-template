@@ -10,7 +10,7 @@ get_header();
 <div class="site-columns">
 	<?php get_sidebar( 'left' ); ?>
 
-	<main id="primary" class="site-main">
+	<main id="primary" class="site-main" tabindex="-1">
 		<div class="mb-404">
 			<div class="mb-404-code">404</div>
 			<h1><?php esc_html_e( 'A keresett oldal nem található', 'mezobereny' ); ?></h1>

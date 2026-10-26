@@ -35,14 +35,12 @@ kép, egy égszínkék színátmenetes helykitöltő jelenik meg.
 Alapértelmezésben a honlap címe (Beállítások » Általános » Cím)
 díszes, kézírásos betűtípussal (Great Vibes) jelenik meg, közvetlenül
 a fejlécképre ráhelyezve (bal alul), alatta egy dekoratív kacskaringó
-vonallal és egy kis címerpajzs-motívummal - pontosan úgy, mint az
-eredeti oldalon. Ha inkább egy kész logóképet szeretnél használni,
-töltsd fel a Megjelenés » Testreszabás » Site Identity » Egyedi logó
-alatt - ekkor a képet fogja megjeleníteni a szöveges felirat helyett
-(a kacskaringó és címer csak a szöveges logóváltozatnál jelenik meg).
-A kis címerpajzs egy általános dekor-elem, nem a tényleges városi
-címer - ha szeretnéd, cseréld le a header.php-ban (mb-logo-crest SVG)
-a valódi címerre.
+vonallal. A betűtípus a téma saját mappájából töltődik (assets/fonts/,
+SIL Open Font License 1.1) - nem a Google szervereiről -, így nincs külső
+kérés (GDPR-barát), nincs CORS-hiba, és AMP alatt is működik. Ha inkább
+egy kész logóképet szeretnél használni, töltsd fel a Megjelenés »
+Testreszabás » Site Identity » Egyedi logó alatt - ekkor a képet fogja
+megjeleníteni a szöveges felirat helyett.
 
 
 -- 4. Menük --
@@ -132,12 +130,22 @@ betűtípusok, gombok) tartja meg kisebb képernyőn is:
     tördelve jelenik meg.
 
 
--- 9. Betűméret / kontraszt kapcsoló --
+-- 9. Kisegítő eszköztár (felső sáv) --
 
-A felső sávban lévő "A A A" gombok és a kontraszt-ikon valós funkciót
-látnak el (assets/js/accessibility.js): a betűméretet és egy egyszerű
-sötét kontrasztos nézetet kapcsolnak, a választást a böngésző menti
-(localStorage), így visszatéréskor is megmarad.
+Tartalma: "Akadálymentesítés" link (az "akadalymentesites" URL-azonosítójú
+oldalra mutat, csak ha az létezik; a cím a mezobereny_accessibility_
+statement_url szűrővel módosítható), betűméret (normál / nagyobb /
+legnagyobb), kontrasztos nézet, nagyobb szöveg- és sortávolság, és
+"Alaphelyzet" gomb. A gombok állapota képernyőolvasóval is követhető
+(aria-pressed), a választás a böngészőben megmarad (localStorage), és
+betöltéskor villogás nélkül érvényesül. Az oldal tetején "Ugrás a
+tartalomra" link is van (billentyűzettel az első Tab-ra jelenik meg).
+Nyelvválasztó vagy más ikon a "mezobereny_topbar_end" action hookkal
+illeszthető a sávba (pl. Polylang/WPML nyelvváltó).
+
+Az Eseménynaptár widget napfejléce magyar nyelvű oldalon H, K, Sze, Cs,
+P, Szo, V (a WordPress alapértelmezett "h k s c p s v" egybetűs jelölése
+félreérthető volt).
 
 
 -- 10. AMP támogatás --
@@ -169,12 +177,13 @@ JavaScriptet egyetlen oldalon sem, ezért:
     fül-váltója szándékosan tiszta CSS-sel (checkbox/radio-hack
     technikával) készült - ezek AMP-oldalon is teljes értékűen,
     JavaScript nélkül működnek.
-  - A felső sávban lévő betűméret-váltó ("A A A") és a kontraszt-ikon
-    JavaScriptet igényel (assets/js/accessibility.js), ezért AMP-
-    oldalakon a plugin eltávolítja a hozzá tartozó szkriptet - a gombok
-    megjelennek, de AMP-oldalon nem lesz funkciójuk. Ez egy tudatosan
-    vállalt, dokumentált korlátozás; a nem-AMP (kanonikus) oldalon
-    ezek továbbra is teljes értékűen működnek.
+  - A felső sáv betűméret/kontraszt/szövegtávolság gombjai JavaScriptet
+    igényelnek (assets/js/accessibility.js). AMP-oldalon ezért a téma
+    nem is jeleníti meg őket (egy nem működő gomb akadálymentességi hiba
+    lenne); helyette "Teljes értékű oldal" link mutat a nem AMP
+    változatra ("Transitional" módban). "Standard" AMP módban nincs nem
+    AMP változat, ott ezek az eszközök nem érhetők el - ezért a
+    Transitional mód ajánlott.
   - Az AMP validátor (AMP » Hibák menüpont a admin felületen) mutatja,
     ha bármelyik oldaltípus (pl. egyedi widget-tartalom) mégis AMP-
     inkompatibilis jelölést tartalmazna - ez jellemzően a bejegyzések/
@@ -182,7 +191,15 @@ JavaScriptet egyetlen oldalon sem, ezért:
     témából.
 
 
--- 11. Színek / stílus finomhangolása --
+-- 11. Stílus beállítások (Testreszabás) --
+
+Megjelenés » Testreszabás » Stílus beállítások: a jobb oldalsáv
+"Keresés" és "Eseménynaptár" doboza külön-külön ki-/bekapcsolható.
+Kikapcsolva a Widgetek alatt hozzáadott Keresés és Naptár widget sem
+jelenik meg a látogatóknak (a Widgetek képernyőn megmaradnak).
+
+
+-- 12. Színek / stílus finomhangolása --
 
 Minden szín CSS-változóként van definiálva a style.css tetején
 (:root { --mb-cream: ...; --mb-gold-dark: ...; stb. }) - ha az élő

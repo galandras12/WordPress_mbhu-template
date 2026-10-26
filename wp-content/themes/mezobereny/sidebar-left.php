@@ -4,7 +4,7 @@
  */
 if ( ! defined( 'ABSPATH' ) ) exit;
 ?>
-<div class="sidebar-col sidebar-col-left">
+<aside class="sidebar-col sidebar-col-left" aria-label="<?php esc_attr_e( 'Oldalsáv: elérhetőségek és menü', 'mezobereny' ); ?>">
 
 	<?php if ( is_active_sidebar( 'sidebar-left-contact' ) ) : ?>
 		<?php dynamic_sidebar( 'sidebar-left-contact' ); ?>
@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 	<div class="widget-box mb-menu-box">
 		<h2 class="widget-title"><?php esc_html_e( 'Menü', 'mezobereny' ); ?></h2>
-		<div class="widget-body">
+		<nav class="widget-body" aria-label="<?php esc_attr_e( 'Főmenü', 'mezobereny' ); ?>">
 			<?php
 			if ( has_nav_menu( 'primary' ) ) {
 				wp_nav_menu( array(
@@ -35,7 +35,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 				mezobereny_fallback_primary_menu();
 			}
 			?>
-		</div>
+		</nav>
 	</div>
 
-</div>
+</aside>

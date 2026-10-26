@@ -6,18 +6,21 @@
  */
 if ( ! defined( 'ABSPATH' ) ) exit;
 ?>
-<div class="sidebar-col sidebar-col-right">
+<aside class="sidebar-col sidebar-col-right" aria-label="<?php esc_attr_e( 'Oldalsáv', 'mezobereny' ); ?>">
 	<?php if ( is_active_sidebar( 'sidebar-right' ) ) : ?>
 		<?php dynamic_sidebar( 'sidebar-right' ); ?>
 	<?php else : ?>
-		<div class="widget-box">
-			<h2 class="widget-title"><?php esc_html_e( 'Keresés', 'mezobereny' ); ?></h2>
-			<div class="widget-body"><?php get_search_form(); ?></div>
-		</div>
-		<div class="widget-box">
-			<h2 class="widget-title"><?php esc_html_e( 'Eseménynaptár', 'mezobereny' ); ?></h2>
-			<div class="widget-body"><?php echo get_calendar( true ); ?></div>
-		</div>
-		<p><em><?php esc_html_e( 'Adj hozzá további widgeteket (Köszöntő, Anyakönyvi hírek, Kép, Egyéni HTML stb.) a Megjelenés » Widgetek alatt a "Jobb oldalsáv" területhez.', 'mezobereny' ); ?></em></p>
+		<?php if ( mezobereny_box_enabled( 'search' ) ) : ?>
+			<div class="widget-box">
+				<h2 class="widget-title"><?php esc_html_e( 'Keresés', 'mezobereny' ); ?></h2>
+				<div class="widget-body"><?php get_search_form(); ?></div>
+			</div>
+		<?php endif; ?>
+		<?php if ( mezobereny_box_enabled( 'calendar' ) ) : ?>
+			<div class="widget-box">
+				<h2 class="widget-title"><?php esc_html_e( 'Eseménynaptár', 'mezobereny' ); ?></h2>
+				<div class="widget-body"><?php get_calendar( true ); ?></div>
+			</div>
+		<?php endif; ?>
 	<?php endif; ?>
-</div>
+</aside>

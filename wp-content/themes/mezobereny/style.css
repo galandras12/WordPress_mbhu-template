@@ -4,7 +4,7 @@ Theme URI: https://mezobereny.hu
 Author: Mezőberény Város Önkormányzata
 Author URI: https://mezobereny.hu
 Description: Önkormányzati/városi honlap sablon, amely a mezőberény.hu weboldal vizuális megjelenését követi: sötét felső elérhetőségi sáv, szépia városkép fejléc díszes cirkalmas felirattal, három hasábos elrendezés (bal oldalt Elérhetőségek és Menü doboz, jobb oldalt Köszöntő, Keresés, Eseménynaptár, Anyakönyvi hírek stb.), krém-barna színvilág, gyorslink gombsor és kétoszlopos hírblokk. Testreszabható fejlécképpel, menükkel és widget-mezőkkel.
-Version: 1.0.0
+Version: 1.2.0
 Requires at least: 6.0
 Requires PHP: 7.4
 Tested up to: 6.6
@@ -28,7 +28,7 @@ Tags: custom-header, custom-menu, three-columns, translation-ready
   --mb-gold-light: #d8c39a;
   --mb-brown-text: #3a2c18;
   --mb-brown-link: #5a3c1e;
-  --mb-brown-link-hover: #8a6a34;
+  --mb-brown-link-hover: #7a5a22;
   --mb-border: #b79f74;
   --mb-border-light: #ddccab;
   --mb-green: #82a23f;
@@ -46,14 +46,12 @@ Tags: custom-header, custom-menu, three-columns, translation-ready
 
 *{ box-sizing: border-box; }
 
-html{ font-size: 16px; }
-html.mb-font-large{ font-size: 18px; }
-html.mb-font-larger{ font-size: 20px; }
-html.mb-contrast body{ background:#000; color:#fff; }
-html.mb-contrast a{ color:#ffd76b !important; }
-html.mb-contrast .widget-box,
-html.mb-contrast .quicklink,
-html.mb-contrast .site-header{ background:#000 !important; border-color:#ffd76b !important; }
+/* A gyökér-betűméret %-ban van megadva, így a böngészőben beállított
+   alapméretet (WCAG 1.4.4) tiszteletben tartja; a felső sáv gombjai
+   ezt 112,5% / 125%-ra emelik. */
+html{ font-size: 100%; }
+html.mb-font-large{ font-size: 112.5%; }
+html.mb-font-larger{ font-size: 125%; }
 
 body{
   margin:0;
@@ -67,14 +65,46 @@ body{
 a{ color: var(--mb-brown-link); text-decoration: underline; }
 a:hover{ color: var(--mb-brown-link-hover); }
 
+/* Látható billentyűzetfókusz (WCAG 2.4.7) */
+:focus-visible{ outline:3px solid #0b57d0; outline-offset:2px; }
+main:focus{ outline:none; }
+
 img{ max-width:100%; height:auto; }
 
 ul{ margin:0; padding:0; list-style:none; }
 
 .screen-reader-text{
-  position:absolute !important;
+  border:0;
   clip:rect(1px,1px,1px,1px);
-  width:1px;height:1px;overflow:hidden;
+  clip-path:inset(50%);
+  height:1px;
+  width:1px;
+  margin:-1px;
+  padding:0;
+  overflow:hidden;
+  position:absolute;
+  white-space:nowrap;
+}
+.screen-reader-text:focus{
+  clip:auto;
+  clip-path:none;
+  height:auto;
+  width:auto;
+  margin:0;
+  overflow:visible;
+}
+/* "Ugrás a tartalomra" - csak billentyűzetes fókuszra jelenik meg */
+.mb-skip-link:focus{
+  position:fixed;
+  top:8px;
+  left:8px;
+  z-index:100000;
+  padding:10px 16px;
+  background:#fff;
+  color:#000;
+  font-weight:bold;
+  text-decoration:underline;
+  box-shadow:0 0 0 3px #0b57d0;
 }
 
 .container{ max-width: var(--mb-maxw); margin:0 auto; padding:0 16px; }
@@ -90,33 +120,50 @@ ul{ margin:0; padding:0; list-style:none; }
   display:flex;
   justify-content:flex-end;
   align-items:center;
-  gap:10px;
+  flex-wrap:wrap;
+  gap:6px 10px;
   padding-top:6px;
   padding-bottom:6px;
   font-size:0.8rem;
 }
+#mb-topbar a{ color: var(--mb-topbar-text); }
+#mb-topbar a:hover{ color:#fff; }
+#mb-topbar :focus-visible{ outline-color:#ffd76b; }
+#mb-topbar .mb-topbar-link{ margin-right:auto; }
 #mb-topbar span.mb-topbar-label{ margin-right:2px; }
+.mb-a11y-tools{ display:none; align-items:center; gap:6px 8px; flex-wrap:wrap; }
+.mb-a11y-group{ display:inline-flex; gap:4px; }
+/* A JavaScript-et igénylő vezérlők csak akkor látszanak, ha a szkript fut. */
+html.mb-js .mb-a11y-tools{ display:flex; }
 #mb-topbar button{
   background:none;
-  border:1px solid #4a4536;
+  border:1px solid #6a634d;
   color: var(--mb-topbar-text);
   cursor:pointer;
   font-family: var(--mb-font-body);
   line-height:1;
-  padding:3px 7px;
+  min-width:32px;
+  min-height:32px;
+  padding:3px 8px;
   border-radius: var(--mb-radius);
 }
 #mb-topbar button:hover{ background:#2a2618; }
+#mb-topbar button[aria-pressed="true"]{
+  background:#e9dfc8;
+  border-color:#e9dfc8;
+  color:#17140f;
+}
 #mb-topbar button.font-a2{ font-size:1.05em; }
 #mb-topbar button.font-a3{ font-size:1.2em; }
-#mb-topbar button.mb-contrast-toggle{
-  border-radius:50%;
-  width:26px;height:26px;
-  padding:0;
+#mb-topbar button.mb-icon-btn{
   display:inline-flex;
   align-items:center;
   justify-content:center;
+  padding:0;
+  width:32px;
 }
+#mb-topbar button.mb-contrast-toggle{ border-radius:50%; }
+#mb-topbar button.mb-text-btn{ font-size:inherit; }
 
 /* -----------------------------------------------------------
    2. Fejléc / szépia városkép sáv + logó
@@ -175,12 +222,6 @@ ul{ margin:0; padding:0; list-style:none; }
   height:auto;
   margin:-6px 0 0 4px;
 }
-.mb-logo-crest{
-  display:block;
-  width:22px;
-  height:auto;
-  margin:2px 0 0 8px;
-}
 .site-branding .site-description{
   display:block;
   font-family: var(--mb-font-body);
@@ -207,7 +248,8 @@ ul{ margin:0; padding:0; list-style:none; }
   padding-top:7px;
   padding-bottom:7px;
 }
-.mb-breadcrumb a{ text-decoration:none; color:#2c2210; }
+.mb-breadcrumb a{ color:#2c2210; }
+.mb-breadcrumb-sep{ margin:0 2px; }
 .mb-today{ color:#2c2210; }
 
 /* Mobil hamburger-menü (a mezőberény.hu-nak nincs gyári mobil nézete).
@@ -371,12 +413,22 @@ ul{ margin:0; padding:0; list-style:none; }
 
 /* Opcionális kiemelés: a menüponthoz "menu-flag" CSS osztályt rendelve
    (Megjelenés » Menük » Menüpont beállításai » CSS osztályok) piros-fehér-zöld
-   sávot kap, ahogy a "Választási információk" tétel az eredeti oldalon. */
+   sáv kerül a menüpont aljára, ahogy a "Választási információk" tételnél az
+   eredeti oldalon. A sáv a szöveg alatt fut, így a felirat kontrasztja nem romlik. */
 .mb-menu-box li.menu-flag > a,
 .mb-menu-box li.menu-item.menu-flag > a{
-  background: linear-gradient(90deg, #ce2b37 0%, #ce2b37 33%, #ffffff 33%, #ffffff 66%, #2e6b3e 66%, #2e6b3e 100%);
-  color:#241c10;
+  background:
+    linear-gradient(90deg, #ce2b37 0 33.3%, #ffffff 33.3% 66.6%, #2e6b3e 66.6% 100%) left bottom / 100% 6px no-repeat,
+    var(--mb-cream-lighter);
+  padding-bottom:12px;
   font-weight:bold;
+}
+
+/* Jelzés a lenyíló almenüvel rendelkező tételeknél */
+.mb-menu-box li.menu-item-has-children > a::after{
+  content:"»";
+  float:right;
+  margin-left:8px;
 }
 
 /* Elérhetőségek doboz */
@@ -423,11 +475,11 @@ ul{ margin:0; padding:0; list-style:none; }
   text-decoration:none;
   font-weight:bold;
   font-size:.92rem;
-  color:#4a2408;
+  color:#2b1405;
   text-shadow: 0 1px 0 rgba(255,255,255,.35);
   background:
     linear-gradient(180deg, rgba(255,255,255,.75) 0%, rgba(255,255,255,0) 55%),
-    linear-gradient(180deg, var(--mb-gold-light) 0%, var(--mb-gold-mid) 45%, var(--mb-gold-dark) 60%, #8a6d40 100%);
+    linear-gradient(180deg, var(--mb-gold-light) 0%, var(--mb-gold-mid) 45%, #b19463 60%, #9a7c4b 100%);
   border:1px solid #6b5028;
   box-shadow:
     0 3px 6px rgba(43,26,8,.35),
@@ -440,7 +492,7 @@ ul{ margin:0; padding:0; list-style:none; }
   color:#16280a;
   background:
     linear-gradient(180deg, rgba(255,255,255,.75) 0%, rgba(255,255,255,0) 55%),
-    linear-gradient(180deg, #b6d97e 0%, #8fb752 45%, var(--mb-green) 60%, var(--mb-green-dark) 100%);
+    linear-gradient(180deg, #b6d97e 0%, #8fb752 45%, #86ad47 60%, #7aa23f 100%);
   border-color:#4d6b23;
 }
 /* -----------------------------------------------------------
@@ -456,7 +508,8 @@ ul{ margin:0; padding:0; list-style:none; }
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  width:26px;height:26px;
+  min-width:30px;height:30px;
+  padding:0 4px;
   border-radius: var(--mb-radius);
   border:1px solid var(--mb-border);
   text-decoration:none;
@@ -464,8 +517,8 @@ ul{ margin:0; padding:0; list-style:none; }
   background: var(--mb-cream-lighter);
 }
 .mb-pagination .current{
-  background:#4a86c8;
-  border-color:#3a6fa8;
+  background:#2a62a0;
+  border-color:#1f4d82;
   color:#fff;
 }
 
@@ -492,7 +545,9 @@ ul{ margin:0; padding:0; list-style:none; }
 }
 .mb-article{ margin-bottom:22px; padding-bottom:16px; border-bottom:1px solid var(--mb-border-light); }
 .mb-article:last-child{ border-bottom:none; }
+.mb-article h2,
 .mb-article h3{ margin:0 0 4px; font-size:1.05rem; }
+.mb-article h2 a,
 .mb-article h3 a{ text-decoration:none; }
 .mb-article .mb-meta{ font-size:.78rem; color:#6b5a3c; margin-bottom:6px; }
 .mb-article .mb-meta span{ margin-right:8px; }
@@ -536,7 +591,9 @@ ul{ margin:0; padding:0; list-style:none; }
 
 .widget_calendar table{ width:100%; border-collapse:collapse; font-size:.8rem; }
 .widget_calendar caption{ font-weight:bold; padding-bottom:4px; }
-.widget_calendar th, .widget_calendar td{ text-align:center; padding:3px 2px; }
+.widget_calendar th, .widget_calendar td{ text-align:center; padding:3px 1px; }
+.widget_calendar th{ font-size:.74rem; }
+.widget_calendar tfoot a{ display:inline-block; padding:4px 0; }
 .widget_calendar #today{ background: var(--mb-gold-light); border-radius:2px; }
 
 /* Anyakönyvi hírek fül-váltó - tiszta CSS "radio-hack": a rejtett
@@ -578,7 +635,13 @@ ul{ margin:0; padding:0; list-style:none; }
 .mb-registry-radio:first-of-type:checked ~ .mb-registry-tabs label:first-of-type,
 .mb-registry-radio:last-of-type:checked ~ .mb-registry-tabs label:last-of-type{
   background: var(--mb-gold-mid);
+  color:#2c2210;
   font-weight:bold;
+}
+.mb-registry-radio:first-of-type:focus-visible ~ .mb-registry-tabs label:first-of-type,
+.mb-registry-radio:last-of-type:focus-visible ~ .mb-registry-tabs label:last-of-type{
+  outline:3px solid #0b57d0;
+  outline-offset:2px;
 }
 .mb-registry-radio:first-of-type:checked ~ .mb-registry-panel-married,
 .mb-registry-radio:last-of-type:checked ~ .mb-registry-panel-deceased{
@@ -663,7 +726,8 @@ ul{ margin:0; padding:0; list-style:none; }
     padding-top:8px;
     padding-bottom:8px;
   }
-  #mb-topbar .mb-topbar-label{ width:100%; margin:0 0 4px; }
+  #mb-topbar .mb-topbar-link{ margin-right:0; width:100%; }
+  .mb-a11y-tools{ justify-content:center; }
 
   .site-header .header-image-wrap img,
   .site-header .header-image-placeholder{ max-height:120px; height:120px; }
@@ -671,7 +735,6 @@ ul{ margin:0; padding:0; list-style:none; }
   .site-branding .site-title{ font-size:1.9rem; }
   .site-branding .site-description{ font-size:.78rem; }
   .mb-logo-flourish{ width:110px; }
-  .mb-logo-crest{ width:18px; }
 
   .mb-breadcrumb-row .container{ justify-content:center; text-align:center; }
   .mb-breadcrumb-row .mb-today{ width:100%; }
@@ -689,4 +752,80 @@ ul{ margin:0; padding:0; list-style:none; }
 @media (max-width: 400px){
   .mb-quicklinks{ grid-template-columns:1fr; }
   .site-branding .site-title{ font-size:1.6rem; }
+}
+
+/* -----------------------------------------------------------
+   12. Kisegítő nézetek (a felső sáv gombjai kapcsolják)
+----------------------------------------------------------- */
+
+/* Nagyobb szöveg- és sortávolság (WCAG 1.4.12 szellemében) */
+html.mb-spacing body{ line-height:1.8; letter-spacing:.04em; word-spacing:.1em; }
+html.mb-spacing p,
+html.mb-spacing li{ margin-bottom:.6em; }
+html.mb-spacing .site-title{ letter-spacing:normal; word-spacing:normal; }
+
+/* Kontrasztos nézet: fekete alap, fehér szöveg, sárga hivatkozás és keret.
+   Szándékosan a stíluslap végén van, és a szelektorok specifikusabbak
+   az alapszabályoknál, ezért !important nélkül is felülírnak mindent. */
+html.mb-contrast body{ background:#000; color:#fff; }
+html.mb-contrast a{ color:#ffd76b; }
+html.mb-contrast a:hover{ color:#fff; }
+html.mb-contrast :focus-visible{ outline-color:#ffd76b; }
+html.mb-contrast #mb-topbar,
+html.mb-contrast .site-header,
+html.mb-contrast .mb-breadcrumb-row,
+html.mb-contrast .widget-box,
+html.mb-contrast .widget-box .widget-title,
+html.mb-contrast .widget-box h3,
+html.mb-contrast .mb-page-title-box,
+html.mb-contrast .mb-news-column .mb-column-title,
+html.mb-contrast .mb-quicklinks a,
+html.mb-contrast .mb-quicklinks a.mb-quicklink-highlight,
+html.mb-contrast .mb-mobile-nav-toggle,
+html.mb-contrast .mb-mobile-nav,
+html.mb-contrast .mb-menu-box .sub-menu,
+html.mb-contrast #colophon,
+html.mb-contrast .mb-pagination a,
+html.mb-contrast .mb-pagination span,
+html.mb-contrast .mb-registry-tabs label,
+html.mb-contrast .widget_search select,
+html.mb-contrast .widget_search input[type=search],
+html.mb-contrast .widget_search input[type=submit],
+html.mb-contrast #mb-topbar button{
+  background:#000;
+  color:#fff;
+  border-color:#ffd76b;
+  box-shadow:none;
+  text-shadow:none;
+}
+html.mb-contrast .mb-quicklinks a,
+html.mb-contrast .mb-mobile-nav-toggle,
+html.mb-contrast .mb-menu-box a{ color:#ffd76b; }
+html.mb-contrast .mb-menu-box li.menu-flag > a{ background:linear-gradient(90deg,#ce2b37 0 33.3%,#fff 33.3% 66.6%,#2e6b3e 66.6% 100%) left bottom / 100% 6px no-repeat, #000; }
+html.mb-contrast .mb-menu-box a:hover,
+html.mb-contrast .mb-mobile-nav a:hover{ background:#222; color:#fff; }
+html.mb-contrast .mb-pagination .current,
+html.mb-contrast #mb-topbar button[aria-pressed="true"],
+html.mb-contrast .mb-registry-radio:first-of-type:checked ~ .mb-registry-tabs label:first-of-type,
+html.mb-contrast .mb-registry-radio:last-of-type:checked ~ .mb-registry-tabs label:last-of-type{
+  background:#ffd76b;
+  color:#000;
+}
+html.mb-contrast .mb-meta,
+html.mb-contrast .mb-single .entry-meta,
+html.mb-contrast .mb-today,
+html.mb-contrast .site-description,
+html.mb-contrast .widget_calendar caption{ color:#fff; }
+html.mb-contrast .site-branding .site-title a{ color:#fff; text-shadow:0 0 4px #000, 0 0 2px #000; }
+html.mb-contrast .site-branding .site-description{ text-shadow:0 0 4px #000, 0 0 2px #000; }
+html.mb-contrast .mb-logo-flourish{ filter:invert(1); }
+html.mb-contrast .widget_calendar #today{ background:#ffd76b; color:#000; }
+html.mb-contrast .mb-menu-box a,
+html.mb-contrast .mb-article,
+html.mb-contrast .mb-mobile-nav a,
+html.mb-contrast .mb-contact-box ul li{ border-color:#ffd76b; }
+
+/* Mozgáscsökkentés: a felhasználó rendszerbeállításának tiszteletben tartása */
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{ transition:none; animation:none; scroll-behavior:auto; }
 }
