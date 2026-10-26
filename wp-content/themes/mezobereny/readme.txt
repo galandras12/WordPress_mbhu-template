@@ -191,7 +191,15 @@ JavaScriptet egyetlen oldalon sem, ezért:
     témából.
 
 
--- 11. Színek / stílus finomhangolása --
+-- 11. Stílus beállítások (Testreszabás) --
+
+Megjelenés » Testreszabás » Stílus beállítások: a jobb oldalsáv
+"Keresés" és "Eseménynaptár" doboza külön-külön ki-/bekapcsolható.
+Kikapcsolva a Widgetek alatt hozzáadott Keresés és Naptár widget sem
+jelenik meg a látogatóknak (a Widgetek képernyőn megmaradnak).
+
+
+-- 12. Színek / stílus finomhangolása --
 
 Minden szín CSS-változóként van definiálva a style.css tetején
 (:root { --mb-cream: ...; --mb-gold-dark: ...; stb. }) - ha az élő

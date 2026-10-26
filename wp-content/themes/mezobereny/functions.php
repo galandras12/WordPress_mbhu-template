@@ -5,7 +5,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'MEZOBERENY_VERSION', '1.1.0' );
+define( 'MEZOBERENY_VERSION', '1.2.0' );
 
 /* -----------------------------------------------------------
    Alapbeállítások / theme support
@@ -128,6 +128,7 @@ add_action( 'wp_enqueue_scripts', 'mezobereny_scripts' );
    Segédfüggvények: dátum + névnap + morzsamenü
 ----------------------------------------------------------- */
 require get_template_directory() . '/inc/accessibility.php';
+require get_template_directory() . '/inc/customizer.php';
 require get_template_directory() . '/inc/namedays.php';
 require get_template_directory() . '/inc/widgets.php';
 require get_template_directory() . '/inc/template-tags.php';
